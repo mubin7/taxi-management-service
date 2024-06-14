@@ -1,0 +1,277 @@
+{
+  "info": {
+    "_postman_id": "3996b51f-f606-44cc-b221-422803123b62",
+    "name": "Taxi Management Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36308465"
+  },
+  "item": [
+    {
+      "name": "Ride APIs",
+      "item": [
+        {
+          "name": "Create Ride",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"bookingDTO\": {\n        \"sourceXPosition\": 2.0,\n        \"sourceYPosition\": 2.0,\n        \"destinationXPosition\": 3.0,\n        \"destinationYPosition\": 3.0\n    },\n    \"maxDistance\": 5.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rides",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rides"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Ride",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"bookingDTO\": {\n        \"bookingId\": \"6783fe2b-a112-435e-9ce9-29a3ee060652\",\n        \"taxiDTO\": {\n            \"taxiId\": \"5aea9181-1720-4f53-a74d-d545ebcabad1\",\n            \"taxiStatus\": \"BOOKED\",\n            \"xPosition\": 0.0,\n            \"yPosition\": 0.0\n        },\n        \"journeyStatus\": \"IN_PROGRESS\",\n        \"sourceXPosition\": 0.0,\n        \"sourceYPosition\": 0.0,\n        \"destinationXPosition\": 2.0,\n        \"destinationYPosition\": 2.0,\n        \"journeyStartTime\": \"2024-06-14T01:25:00.550283\",\n        \"journeyEndTime\": null\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rides",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rides"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Taxi APIs",
+      "item": [
+        {
+          "name": "Get All Taxis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/taxis",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "taxis"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Taxi",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"taxiDTO\" : {\n        \"xPosition\": 1.0,\n        \"yPosition\": 1.0\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/taxis",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "taxis"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Taxi By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/taxis/6dc00f95-b274-4e09-a85b-fd751a015d90",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "taxis",
+                "6dc00f95-b274-4e09-a85b-fd751a015d90"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Taxi Status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"taxiDTO\": {\n        \"taxiId\": \"02c73808-adfa-4213-9442-afa37cfdeec4\",\n        \"taxiStatus\": \"AVAILABLE\",\n        \"xPosition\": 1.0,\n        \"yPosition\": 1.0\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/taxis",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "taxis"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Metric APIs",
+      "item": [
+        {
+          "name": "Get All Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/dashboard/bookings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "dashboard",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Bookings By Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/dashboard/bookings/status?status=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "dashboard",
+                "bookings",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Bookings By Date",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/dashboard/bookings/date?date=2024-06-14",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "dashboard",
+                "bookings",
+                "date"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-06-14"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Taxi By Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/dashboard/taxis/status?status=AVAILABLE",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "dashboard",
+                "taxis",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "AVAILABLE"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
