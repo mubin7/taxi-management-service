@@ -3,10 +3,10 @@ package com.tms.service;
 import com.tms.constant.TaxiStatus;
 import com.tms.dto.TaxiDTO;
 import com.tms.payload.request.taxi.CreateTaxiRequest;
-import com.tms.payload.request.taxi.TaxiStatusUpdateRequest;
+import com.tms.payload.request.taxi.TaxiUpdateRequest;
 import com.tms.payload.response.taxi.CreateTaxiResponse;
 import com.tms.payload.response.taxi.TaxiListResponse;
-import com.tms.payload.response.taxi.TaxiStatusUpdateResponse;
+import com.tms.payload.response.taxi.TaxiUpdateResponse;
 
 public interface TaxiService {
 
@@ -14,10 +14,9 @@ public interface TaxiService {
 
     TaxiDTO getTaxi(String taxiId);
 
-    TaxiStatusUpdateResponse updateTaxiStatus(TaxiStatusUpdateRequest taxiStatusUpdateRequest);
+    TaxiUpdateResponse updateTaxi(TaxiUpdateRequest taxiUpdateRequest);
 
     CreateTaxiResponse createTaxi(CreateTaxiRequest createTaxiRequest);
 
-
-    TaxiListResponse getTaxisByStatus(TaxiStatus taxiStatus);
+    TaxiListResponse getTaxiByStatus(TaxiStatus taxiStatus);
 }

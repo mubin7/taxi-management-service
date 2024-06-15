@@ -1,6 +1,6 @@
 package com.tms.service.impl;
 
-import com.tms.constant.JourneyStatus;
+import com.tms.constant.RideStatus;
 import com.tms.dto.BookingDTO;
 import com.tms.exception.NoBookingRecordFoundException;
 import com.tms.mapper.BookingModelMapper;
@@ -42,12 +42,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingListResponse getBookingsByJourneyStatus(JourneyStatus journeyStatus) {
-        LOGGER.info("getting the list of all bookings by journey status : " + journeyStatus);
-        List<Booking> bookingList = bookingRepository.findByJourneyStatus(journeyStatus);
+    public BookingListResponse getBookingsByRideStatus(RideStatus rideStatus) {
+        LOGGER.info("getting the list of all bookings by journey status : " + rideStatus);
+        List<Booking> bookingList = bookingRepository.findByRideStatus(rideStatus);
         if (bookingList.isEmpty()) {
-            LOGGER.error("No booking record(s) found for the status : {}", journeyStatus);
-            throw new NoBookingRecordFoundException("No booking record(s) found for the status : " + journeyStatus);
+            LOGGER.error("No booking record(s) found for the status : {}", rideStatus);
+            throw new NoBookingRecordFoundException("No booking record(s) found for the status : " + rideStatus);
         }
         List<BookingDTO> bookingDTOList = bookingModelMapper.getModelList(bookingList);
         LOGGER.info("booking list by journey status retrieved successfully.");
@@ -58,7 +58,7 @@ public class BookingServiceImpl implements BookingService {
     public BookingListResponse getBookingsByDate(String date) {
         LOGGER.info("getting the list of all bookings by date : " + date);
         LocalDate bookingDate = LocalDate.parse(date);
-        List<Booking> bookingList = bookingRepository.findByJourneyStartTimeBetween(
+        List<Booking> bookingList = bookingRepository.findByRideStartTimeBetween(
                 bookingDate.atStartOfDay(), bookingDate.plusDays(1).atStartOfDay());
         if (bookingList.isEmpty()) {
             LOGGER.error("No booking record(s) found for the date : {}", date);

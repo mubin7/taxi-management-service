@@ -5,8 +5,8 @@ import com.tms.constant.TaxiStatus;
 public class TaxiDTO {
     private String taxiId;
     private TaxiStatus taxiStatus;
-    private Double xPosition;
-    private Double yPosition;
+    private Double currXPos;
+    private Double currYPos;
 
     public String getTaxiId() {
         return taxiId;
@@ -24,20 +24,20 @@ public class TaxiDTO {
         this.taxiStatus = taxiStatus;
     }
 
-    public Double getxPosition() {
-        return xPosition;
+    public Double getCurrXPos() {
+        return currXPos;
     }
 
-    public void setxPosition(Double xPosition) {
-        this.xPosition = xPosition;
+    public void setCurrXPos(Double currXPos) {
+        this.currXPos = currXPos;
     }
 
-    public Double getyPosition() {
-        return yPosition;
+    public Double getCurrYPos() {
+        return currYPos;
     }
 
-    public void setyPosition(Double yPosition) {
-        this.yPosition = yPosition;
+    public void setCurrYPos(Double currYPos) {
+        this.currYPos = currYPos;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class TaxiDTO {
         return "TaxiDTO{" +
                 "taxiId='" + taxiId + '\'' +
                 ", taxiStatus=" + taxiStatus +
-                ", xPosition=" + xPosition +
-                ", yPosition=" + yPosition +
+                ", xPosition=" + currXPos +
+                ", yPosition=" + currYPos +
                 '}';
     }
 }

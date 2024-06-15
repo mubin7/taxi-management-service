@@ -1,13 +1,12 @@
 package com.tms.service.impl;
 
-import com.tms.constant.JourneyStatus;
+import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
 import com.tms.dto.BookingDTO;
 import com.tms.dto.TaxiDTO;
 import com.tms.exception.CompleteRideException;
 import com.tms.exception.NewBookingException;
 import com.tms.exception.NoBookingRecordFoundException;
-import com.tms.exception.NoTaxiRecordFoundException;
 import com.tms.mapper.BookingModelMapper;
 import com.tms.payload.request.ride.CompleteRideRequest;
 import com.tms.payload.request.ride.CreateRideRequest;
@@ -18,11 +17,12 @@ import com.tms.persistence.entity.Taxi;
 import com.tms.persistence.repository.BookingRepository;
 import com.tms.persistence.repository.TaxiRepository;
 import com.tms.service.RideService;
-import com.tms.validation.RideValidationService;
 import com.tms.service.TaxiFinderService;
+import com.tms.validation.RideValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -52,6 +52,7 @@ public class RideServiceImpl implements RideService {
 
 
     @Override
+    @Transactional
     public CreateRideResponse createRide(CreateRideRequest createRideRequest) {
         LOGGER.info("validating new taxi booking request");
         rideValidationService.validateCreateRide(createRideRequest);
@@ -62,17 +63,14 @@ public class RideServiceImpl implements RideService {
         bookingDTO.setTaxiDTO(nearestTaxiDTO);
         LOGGER.info("nearest taxi : {}", nearestTaxiDTO);
 
-        Optional<Taxi> nearestTaxiOptional = taxiRepository.findById(nearestTaxiDTO.getTaxiId());
-        Taxi nearestTaxi = nearestTaxiOptional.orElseThrow(
-                () -> new NoTaxiRecordFoundException("no taxi record found for id : " + nearestTaxiDTO.getTaxiId())
-        );
+        Taxi nearestTaxi = taxiRepository.findById(nearestTaxiDTO.getTaxiId()).get();
         Booking booking = getBookingEntity(createRideRequest.bookingDTO(), nearestTaxi);
 
         try {
             LOGGER.info("booking nearest taxi");
             Booking persistedBooking = bookingRepository.save(booking);
-            bookingDTO = bookingModelMapper.getDTO(persistedBooking);
             LOGGER.info("nearest taxi successfully booked with booking details : {}", bookingDTO);
+            bookingDTO = bookingModelMapper.getDTO(persistedBooking);
             return new CreateRideResponse(bookingDTO);
         } catch (Exception e) {
             LOGGER.error("create ride request failed for request : {}", createRideRequest);
@@ -85,12 +83,13 @@ public class RideServiceImpl implements RideService {
         taxi.setTaxiStatus(TaxiStatus.BOOKED);
         booking.setTaxi(taxi);
         booking.getTaxi().setTaxiStatus(TaxiStatus.BOOKED);
-        booking.setJourneyStatus(JourneyStatus.IN_PROGRESS);
-        booking.setJourneyStartTime(LocalDateTime.now());
+        booking.setRideStatus(RideStatus.IN_PROGRESS);
+        booking.setRideStartTime(LocalDateTime.now());
         return booking;
     }
 
     @Override
+    @Transactional
     public CompleteRideResponse completeRide(CompleteRideRequest completeRideRequest) {
         LOGGER.info("validating complete ride request");
         rideValidationService.validateCompleteRide(completeRideRequest);
@@ -115,10 +114,10 @@ public class RideServiceImpl implements RideService {
     private void updateBookingDetails(Booking bookingEntity) {
         Taxi taxi = bookingEntity.getTaxi();
         taxi.setTaxiStatus(TaxiStatus.AVAILABLE);
-        taxi.setxPosition(bookingEntity.getDestinationXPosition());
-        taxi.setyPosition(bookingEntity.getDestinationYPosition());
+        taxi.setCurrXPos(bookingEntity.getDestXPos());
+        taxi.setCurrYPos(bookingEntity.getDestYPos());
         bookingEntity.setTaxi(taxi);
-        bookingEntity.setJourneyStatus(JourneyStatus.COMPLETED);
-        bookingEntity.setJourneyEndTime(LocalDateTime.now());
+        bookingEntity.setRideStatus(RideStatus.COMPLETED);
+        bookingEntity.setRideEndTime(LocalDateTime.now());
     }
 }

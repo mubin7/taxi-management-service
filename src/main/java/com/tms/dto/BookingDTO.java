@@ -1,19 +1,19 @@
 package com.tms.dto;
 
-import com.tms.constant.JourneyStatus;
+import com.tms.constant.RideStatus;
 
 import java.time.LocalDateTime;
 
 public class BookingDTO {
     private String bookingId;
     private TaxiDTO taxiDTO;
-    private JourneyStatus journeyStatus;
-    private Double sourceXPosition;
-    private Double sourceYPosition;
-    private Double destinationXPosition;
-    private Double destinationYPosition;
-    private LocalDateTime journeyStartTime;
-    private LocalDateTime journeyEndTime;
+    private RideStatus rideStatus;
+    private Double srcXPos;
+    private Double srcYPos;
+    private Double destXPos;
+    private Double destYPos;
+    private LocalDateTime rideStartTime;
+    private LocalDateTime rideEndTime;
 
     public String getBookingId() {
         return bookingId;
@@ -31,59 +31,59 @@ public class BookingDTO {
         this.taxiDTO = taxiDTO;
     }
 
-    public JourneyStatus getJourneyStatus() {
-        return journeyStatus;
+    public RideStatus getRideStatus() {
+        return rideStatus;
     }
 
-    public void setJourneyStatus(JourneyStatus journeyStatus) {
-        this.journeyStatus = journeyStatus;
+    public void setRideStatus(RideStatus rideStatus) {
+        this.rideStatus = rideStatus;
     }
 
-    public Double getSourceXPosition() {
-        return sourceXPosition;
+    public Double getSrcXPos() {
+        return srcXPos;
     }
 
-    public void setSourceXPosition(Double sourceXPosition) {
-        this.sourceXPosition = sourceXPosition;
+    public void setSrcXPos(Double srcXPos) {
+        this.srcXPos = srcXPos;
     }
 
-    public Double getSourceYPosition() {
-        return sourceYPosition;
+    public Double getSrcYPos() {
+        return srcYPos;
     }
 
-    public void setSourceYPosition(Double sourceYPosition) {
-        this.sourceYPosition = sourceYPosition;
+    public void setSrcYPos(Double srcYPos) {
+        this.srcYPos = srcYPos;
     }
 
-    public Double getDestinationXPosition() {
-        return destinationXPosition;
+    public Double getDestXPos() {
+        return destXPos;
     }
 
-    public void setDestinationXPosition(Double destinationXPosition) {
-        this.destinationXPosition = destinationXPosition;
+    public void setDestXPos(Double destXPos) {
+        this.destXPos = destXPos;
     }
 
-    public Double getDestinationYPosition() {
-        return destinationYPosition;
+    public Double getDestYPos() {
+        return destYPos;
     }
 
-    public void setDestinationYPosition(Double destinationYPosition) {
-        this.destinationYPosition = destinationYPosition;
+    public void setDestYPos(Double destYPos) {
+        this.destYPos = destYPos;
     }
 
-    public LocalDateTime getJourneyStartTime() {
-        return journeyStartTime;
+    public LocalDateTime getRideStartTime() {
+        return rideStartTime;
     }
 
-    public void setJourneyStartTime(LocalDateTime journeyStartTime) {
-        this.journeyStartTime = journeyStartTime;
+    public void setRideStartTime(LocalDateTime rideStartTime) {
+        this.rideStartTime = rideStartTime;
     }
 
-    public LocalDateTime getJourneyEndTime() {
-        return journeyEndTime;
+    public LocalDateTime getRideEndTime() {
+        return rideEndTime;
     }
 
-    public void setJourneyEndTime(LocalDateTime journeyEndTime) {
-        this.journeyEndTime = journeyEndTime;
+    public void setRideEndTime(LocalDateTime rideEndTime) {
+        this.rideEndTime = rideEndTime;
     }
 }

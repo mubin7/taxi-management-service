@@ -25,7 +25,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {TaxiStatusUpdateException.class})
+    @ExceptionHandler(value = {TaxiUpdateException.class})
     public ResponseEntity<ErrorMessage> handleTaxiStatusUpdateException(RuntimeException e, WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST.value(), LocalDateTime.now(), e.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);

@@ -1,11 +1,11 @@
 package com.tms.validation;
 
 import com.tms.payload.request.taxi.CreateTaxiRequest;
-import com.tms.payload.request.taxi.TaxiStatusUpdateRequest;
+import com.tms.payload.request.taxi.TaxiUpdateRequest;
 
 public interface TaxiValidationService {
 
-    void validateUpdateTaxiStatus(TaxiStatusUpdateRequest taxiStatusUpdateRequest);
+    void validateUpdateTaxi(TaxiUpdateRequest taxiUpdateRequest);
 
     void validateCreateTaxi(CreateTaxiRequest createTaxiRequest);
 }

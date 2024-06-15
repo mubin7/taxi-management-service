@@ -50,8 +50,8 @@ public class TaxiFinderServiceImpl implements TaxiFinderService {
     }
 
     private Double calculateDistance(BookingDTO bookingDTO, TaxiDTO taxiDTO) {
-        double xCordDist = taxiDTO.getxPosition() - bookingDTO.getSourceXPosition();
-        double yCordDist = taxiDTO.getyPosition() - bookingDTO.getSourceYPosition();
+        double xCordDist = taxiDTO.getCurrXPos() - bookingDTO.getSrcXPos();
+        double yCordDist = taxiDTO.getCurrYPos() - bookingDTO.getSrcYPos();
         double xCordDistSquare = xCordDist * xCordDist;
         double yCordDistSquare = yCordDist * yCordDist;
         return Math.sqrt(xCordDistSquare + yCordDistSquare);

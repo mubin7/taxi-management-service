@@ -1,6 +1,6 @@
 package com.tms.controller;
 
-import com.tms.constant.JourneyStatus;
+import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
 import com.tms.payload.response.booking.BookingListResponse;
 import com.tms.payload.response.taxi.TaxiListResponse;
@@ -30,8 +30,8 @@ public class DashboardController {
     }
 
     @GetMapping("/dashboard/bookings/status")
-    public ResponseEntity<BookingListResponse> getBookingsByJourneyStatus(@RequestParam("status") JourneyStatus journeyStatus) {
-        BookingListResponse bookingListResponse = bookingService.getBookingsByJourneyStatus(journeyStatus);
+    public ResponseEntity<BookingListResponse> getBookingsByRideStatus(@RequestParam("status") RideStatus rideStatus) {
+        BookingListResponse bookingListResponse = bookingService.getBookingsByRideStatus(rideStatus);
         return new ResponseEntity<>(bookingListResponse, HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class DashboardController {
 
     @GetMapping("/dashboard/taxis/status")
     public ResponseEntity<TaxiListResponse> getTaxisByStatus(@RequestParam("status") TaxiStatus taxiStatus) {
-        TaxiListResponse taxiListResponse = taxiService.getTaxisByStatus(taxiStatus);
+        TaxiListResponse taxiListResponse = taxiService.getTaxiByStatus(taxiStatus);
         return new ResponseEntity<>(taxiListResponse, HttpStatus.OK);
     }
 

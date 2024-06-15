@@ -5,10 +5,10 @@ import com.tms.dto.TaxiDTO;
 import com.tms.exception.NoTaxiRecordFoundException;
 import com.tms.mapper.TaxiModelMapper;
 import com.tms.payload.request.taxi.CreateTaxiRequest;
-import com.tms.payload.request.taxi.TaxiStatusUpdateRequest;
+import com.tms.payload.request.taxi.TaxiUpdateRequest;
 import com.tms.payload.response.taxi.CreateTaxiResponse;
 import com.tms.payload.response.taxi.TaxiListResponse;
-import com.tms.payload.response.taxi.TaxiStatusUpdateResponse;
+import com.tms.payload.response.taxi.TaxiUpdateResponse;
 import com.tms.persistence.entity.Taxi;
 import com.tms.persistence.repository.TaxiRepository;
 import com.tms.service.TaxiService;
@@ -16,6 +16,7 @@ import com.tms.validation.TaxiValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,6 @@ public class TaxiServiceImpl implements TaxiService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaxiServiceImpl.class);
 
     private final TaxiRepository taxiRepository;
-
     private final TaxiModelMapper taxiModelMapper;
     private final TaxiValidationService taxiValidationService;
 
@@ -54,17 +54,18 @@ public class TaxiServiceImpl implements TaxiService {
     }
 
     @Override
-    public TaxiStatusUpdateResponse updateTaxiStatus(TaxiStatusUpdateRequest taxiStatusUpdateRequest) {
-        LOGGER.info("validating update taxi status request");
-        taxiValidationService.validateUpdateTaxiStatus(taxiStatusUpdateRequest);
-        TaxiDTO taxiDTO = taxiStatusUpdateRequest.taxiDTO();
+    @Transactional
+    public TaxiUpdateResponse updateTaxi(TaxiUpdateRequest taxiUpdateRequest) {
+        LOGGER.info("validating update taxi request");
+        taxiValidationService.validateUpdateTaxi(taxiUpdateRequest);
+        TaxiDTO taxiDTO = taxiUpdateRequest.taxiDTO();
         Taxi taxi = getTaxiEntity(taxiDTO.getTaxiId());
         taxi.setTaxiStatus(taxiDTO.getTaxiStatus());
-        taxi.setxPosition(taxiDTO.getxPosition());
-        taxi.setyPosition(taxiDTO.getyPosition());
-        LOGGER.info("updating taxi status : " + taxi);
+        taxi.setCurrXPos(taxiDTO.getCurrXPos());
+        taxi.setCurrYPos(taxiDTO.getCurrYPos());
+        LOGGER.info("updating taxi details : " + taxi);
         Taxi persistedTaxi = taxiRepository.save(taxi);
-        return new TaxiStatusUpdateResponse(taxiModelMapper.getModel(persistedTaxi));
+        return new TaxiUpdateResponse(taxiModelMapper.getModel(persistedTaxi));
     }
 
     private Taxi getTaxiEntity(String taxiDTO) {
@@ -85,7 +86,7 @@ public class TaxiServiceImpl implements TaxiService {
     }
 
     @Override
-    public TaxiListResponse getTaxisByStatus(TaxiStatus taxiStatus) {
+    public TaxiListResponse getTaxiByStatus(TaxiStatus taxiStatus) {
         List<Taxi> taxiList = taxiRepository.findByTaxiStatus(taxiStatus);
         if (taxiList.isEmpty()) {
             LOGGER.error("No taxi record(s) found for the status : {}", taxiStatus);
