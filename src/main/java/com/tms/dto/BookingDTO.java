@@ -8,10 +8,7 @@ public class BookingDTO {
     private String bookingId;
     private TaxiDTO taxiDTO;
     private RideStatus rideStatus;
-    private Double srcXPos;
-    private Double srcYPos;
-    private Double destXPos;
-    private Double destYPos;
+    private RideDTO rideDTO;
     private LocalDateTime rideStartTime;
     private LocalDateTime rideEndTime;
 
@@ -39,36 +36,12 @@ public class BookingDTO {
         this.rideStatus = rideStatus;
     }
 
-    public Double getSrcXPos() {
-        return srcXPos;
+    public RideDTO getRideDTO() {
+        return rideDTO;
     }
 
-    public void setSrcXPos(Double srcXPos) {
-        this.srcXPos = srcXPos;
-    }
-
-    public Double getSrcYPos() {
-        return srcYPos;
-    }
-
-    public void setSrcYPos(Double srcYPos) {
-        this.srcYPos = srcYPos;
-    }
-
-    public Double getDestXPos() {
-        return destXPos;
-    }
-
-    public void setDestXPos(Double destXPos) {
-        this.destXPos = destXPos;
-    }
-
-    public Double getDestYPos() {
-        return destYPos;
-    }
-
-    public void setDestYPos(Double destYPos) {
-        this.destYPos = destYPos;
+    public void setRideDTO(RideDTO rideDTO) {
+        this.rideDTO = rideDTO;
     }
 
     public LocalDateTime getRideStartTime() {

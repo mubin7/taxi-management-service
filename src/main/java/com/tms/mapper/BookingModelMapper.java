@@ -1,6 +1,7 @@
 package com.tms.mapper;
 
 import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
 import com.tms.dto.TaxiDTO;
 import com.tms.persistence.entity.Booking;
 import com.tms.persistence.entity.Taxi;
@@ -20,6 +21,15 @@ public class BookingModelMapper {
     @Autowired
     private TaxiModelMapper taxiModelMapper;
 
+    public Booking getEntity(RideDTO rideDTO) {
+        Booking booking = new Booking();
+        booking.setSrcXPos(rideDTO.srcXPos());
+        booking.setSrcYPos(rideDTO.srcYPos());
+        booking.setDestXPos(rideDTO.destXPos());
+        booking.setDestYPos(rideDTO.destYPos());
+        return booking;
+    }
+
     public Booking getEntity(BookingDTO bookingDTO) {
         Taxi taxi = taxiModelMapper.getEntity(bookingDTO.getTaxiDTO());
         Booking booking = modelMapper.map(bookingDTO, Booking.class);
@@ -31,6 +41,8 @@ public class BookingModelMapper {
         TaxiDTO taxiDTO = taxiModelMapper.getModel(booking.getTaxi());
         BookingDTO bookingDTO = modelMapper.map(booking, BookingDTO.class);
         bookingDTO.setTaxiDTO(taxiDTO);
+        RideDTO rideDTO = new RideDTO(booking.getSrcXPos(), booking.getSrcYPos(), booking.getDestXPos(), booking.getDestYPos());
+        bookingDTO.setRideDTO(rideDTO);
         return bookingDTO;
     }
 

@@ -60,4 +60,10 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND.value(), LocalDateTime.now(), e.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = {InvalidDateFormatException.class})
+    public ResponseEntity<ErrorMessage> handleInvalidDateFormatException(RuntimeException e, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(HttpStatus.BAD_REQUEST.value(), LocalDateTime.now(), e.getMessage());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -3,6 +3,7 @@ package com.tms.validation.impl;
 import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
 import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
 import com.tms.exception.CompleteRideException;
 import com.tms.exception.NewBookingException;
 import com.tms.payload.request.ride.CompleteRideRequest;
@@ -27,18 +28,14 @@ public class RideValidationServiceImpl implements RideValidationService {
 
     @Override
     public void validateCreateRide(CreateRideRequest createRideRequest) {
-        BookingDTO bookingDTO = createRideRequest.bookingDTO();
+        RideDTO rideDTO = createRideRequest.rideDTO();
 
-        if (bookingDTO.getBookingId() != null && bookingRepository.existsById(bookingDTO.getBookingId())) {
-            throw new NewBookingException("Booking already exists.");
-        }
-
-        if (bookingDTO.getSrcXPos() == null || bookingDTO.getSrcYPos() == null) {
+        if (rideDTO.srcXPos() == null || rideDTO.srcYPos() == null) {
             LOGGER.error("Source coordinates missing.");
             throw new NewBookingException("Source coordinates missing.");
         }
 
-        if (bookingDTO.getDestXPos() == null || bookingDTO.getDestYPos() == null) {
+        if (rideDTO.destXPos() == null || rideDTO.destYPos() == null) {
             LOGGER.error("Destination coordinates missing.");
             throw new NewBookingException("Destination coordinates missing.");
         }

@@ -5,14 +5,13 @@ import com.tms.payload.request.ride.CreateRideRequest;
 import com.tms.payload.response.ride.CompleteRideResponse;
 import com.tms.payload.response.ride.CreateRideResponse;
 import com.tms.service.RideService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/rides")
 public class RideController {
 
     private final RideService rideService;
@@ -22,12 +21,14 @@ public class RideController {
     }
 
     @PostMapping("/rides")
+    @Operation(summary = "Creates a request for new ride using the source and destination x & y coordinates.")
     public ResponseEntity<CreateRideResponse> createRide(@RequestBody CreateRideRequest createRideRequest) {
         CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
         return new ResponseEntity<>(createRideResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/rides")
+    @Operation(summary = "Completes an existing ride.")
     public ResponseEntity<CompleteRideResponse> completeRide(@RequestBody CompleteRideRequest completeRideRequest) {
         CompleteRideResponse completeRideResponse = rideService.completeRide(completeRideRequest);
         return new ResponseEntity<>(completeRideResponse, HttpStatus.ACCEPTED);

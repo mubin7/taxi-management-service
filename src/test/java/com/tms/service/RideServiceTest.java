@@ -94,25 +94,6 @@ public class RideServiceTest extends BasePostgresIntegrationTest {
     }
 
     @Test
-    public void whenCreateRideWithExistingBookingId_thenThrowsNewBookingException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
-        createRideRequest.bookingDTO().setBookingId(createRideResponse.bookingDTO().getBookingId());
-
-        assertThrows(NewBookingException.class, () -> rideService.createRide(createRideRequest));
-    }
-
-    @Test
     public void whenCompleteRide_thenReturnRide() {
         double srcXPos = 0.0;
         double srcYPos = 0.0;

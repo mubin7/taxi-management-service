@@ -2,6 +2,7 @@ package com.tms.service.impl;
 
 import com.tms.constant.RideStatus;
 import com.tms.dto.BookingDTO;
+import com.tms.exception.InvalidDateFormatException;
 import com.tms.exception.NoBookingRecordFoundException;
 import com.tms.mapper.BookingModelMapper;
 import com.tms.payload.response.booking.BookingListResponse;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -57,7 +59,14 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingListResponse getBookingsByDate(String date) {
         LOGGER.info("getting the list of all bookings by date : " + date);
-        LocalDate bookingDate = LocalDate.parse(date);
+        LocalDate bookingDate;
+        try {
+            bookingDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            LOGGER.error("Please use yyyy-MM-dd format for searching bookings by date. eg 2000-01-01");
+            throw new InvalidDateFormatException("Please use yyyy-MM-dd format for searching bookings by date. eg 2000-01-01.");
+        }
+
         List<Booking> bookingList = bookingRepository.findByRideStartTimeBetween(
                 bookingDate.atStartOfDay(), bookingDate.plusDays(1).atStartOfDay());
         if (bookingList.isEmpty()) {

@@ -1,6 +1,6 @@
 package com.tms.payload.request.ride;
 
-import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
 
-public record CreateRideRequest(BookingDTO bookingDTO, Double maxDistance) {
+public record CreateRideRequest(RideDTO rideDTO, Double maxDistance) {
 }

@@ -50,24 +50,6 @@ public class RideValidationServiceTest extends BasePostgresIntegrationTest {
     }
 
     @Test
-    public void whenCreateRideWithExistingBooking_thenThrowsNewBookingException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-        CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
-
-        CreateRideRequest existingCreateRideRequest = new CreateRideRequest(createRideResponse.bookingDTO(), maxDistance);
-        assertThrows(NewBookingException.class, () -> rideValidationService.validateCreateRide(existingCreateRideRequest));
-    }
-
-    @Test
     public void whenCreateRideWithMissingSource_thenThrowsNewBookingException() {
         double destXPos = 3.0;
         double destYPos = 3.0;
@@ -93,23 +75,6 @@ public class RideValidationServiceTest extends BasePostgresIntegrationTest {
         taxiRepository.saveAll(taxiList);
 
         assertThrows(NewBookingException.class, () -> rideValidationService.validateCreateRide(createRideRequest));
-    }
-
-    @Test
-    public void whenCompleteRideWithNoBookingId_thenThrowsCompleteRideException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        CompleteRideRequest completeRideRequest = new CompleteRideRequest(createRideRequest.bookingDTO());
-        assertThrows(CompleteRideException.class, () -> rideValidationService.validateCompleteRide(completeRideRequest));
     }
 
     @Test

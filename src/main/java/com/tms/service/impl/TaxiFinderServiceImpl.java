@@ -1,7 +1,7 @@
 package com.tms.service.impl;
 
 import com.tms.constant.TaxiStatus;
-import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
 import com.tms.dto.TaxiDTO;
 import com.tms.exception.NoTaxiAvailableException;
 import com.tms.exception.NoTaxiAvailableNearbyException;
@@ -33,10 +33,10 @@ public class TaxiFinderServiceImpl implements TaxiFinderService {
 
     @Override
     public TaxiDTO getNearestAvailableTaxi(CreateRideRequest createRideRequest) {
-        BookingDTO bookingDTO = createRideRequest.bookingDTO();
+        RideDTO rideDTO = createRideRequest.rideDTO();
         return getAvailableTaxis().stream()
-                .min(Comparator.comparingDouble(taxi -> calculateDistance(bookingDTO, taxi)))
-                .filter(taxi -> createRideRequest.maxDistance() > calculateDistance(bookingDTO, taxi))
+                .min(Comparator.comparingDouble(taxi -> calculateDistance(rideDTO, taxi)))
+                .filter(taxi -> createRideRequest.maxDistance() > calculateDistance(rideDTO, taxi))
                 .orElseThrow(() -> new NoTaxiAvailableNearbyException("Currently no taxi available nearby."));
     }
 
@@ -49,9 +49,9 @@ public class TaxiFinderServiceImpl implements TaxiFinderService {
         return taxiModelMapper.getModelList(availableTaxis);
     }
 
-    private Double calculateDistance(BookingDTO bookingDTO, TaxiDTO taxiDTO) {
-        double xCordDist = taxiDTO.getCurrXPos() - bookingDTO.getSrcXPos();
-        double yCordDist = taxiDTO.getCurrYPos() - bookingDTO.getSrcYPos();
+    private Double calculateDistance(RideDTO rideDTO, TaxiDTO taxiDTO) {
+        double xCordDist = taxiDTO.getCurrXPos() - rideDTO.srcXPos();
+        double yCordDist = taxiDTO.getCurrYPos() - rideDTO.srcYPos();
         double xCordDistSquare = xCordDist * xCordDist;
         double yCordDistSquare = yCordDist * yCordDist;
         return Math.sqrt(xCordDistSquare + yCordDistSquare);

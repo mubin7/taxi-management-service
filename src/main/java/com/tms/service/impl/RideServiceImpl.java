@@ -3,6 +3,7 @@ package com.tms.service.impl;
 import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
 import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
 import com.tms.dto.TaxiDTO;
 import com.tms.exception.CompleteRideException;
 import com.tms.exception.NewBookingException;
@@ -58,19 +59,17 @@ public class RideServiceImpl implements RideService {
         rideValidationService.validateCreateRide(createRideRequest);
 
         LOGGER.info("getting nearest taxi");
-        BookingDTO bookingDTO = createRideRequest.bookingDTO();
         TaxiDTO nearestTaxiDTO = taxiFinderService.getNearestAvailableTaxi(createRideRequest);
-        bookingDTO.setTaxiDTO(nearestTaxiDTO);
         LOGGER.info("nearest taxi : {}", nearestTaxiDTO);
 
         Taxi nearestTaxi = taxiRepository.findById(nearestTaxiDTO.getTaxiId()).get();
-        Booking booking = getBookingEntity(createRideRequest.bookingDTO(), nearestTaxi);
+        Booking booking = getBookingEntity(createRideRequest.rideDTO(), nearestTaxi);
 
         try {
             LOGGER.info("booking nearest taxi");
             Booking persistedBooking = bookingRepository.save(booking);
-            LOGGER.info("nearest taxi successfully booked with booking details : {}", bookingDTO);
-            bookingDTO = bookingModelMapper.getDTO(persistedBooking);
+            LOGGER.info("nearest taxi successfully booked with booking details : {}", createRideRequest.rideDTO());
+            BookingDTO bookingDTO = bookingModelMapper.getDTO(persistedBooking);
             return new CreateRideResponse(bookingDTO);
         } catch (Exception e) {
             LOGGER.error("create ride request failed for request : {}", createRideRequest);
@@ -78,8 +77,8 @@ public class RideServiceImpl implements RideService {
         }
     }
 
-    private Booking getBookingEntity(BookingDTO bookingDTO, Taxi taxi) {
-        Booking booking = bookingModelMapper.getEntity(bookingDTO);
+    private Booking getBookingEntity(RideDTO rideDTO, Taxi taxi) {
+        Booking booking = bookingModelMapper.getEntity(rideDTO);
         taxi.setTaxiStatus(TaxiStatus.BOOKED);
         booking.setTaxi(taxi);
         booking.getTaxi().setTaxiStatus(TaxiStatus.BOOKED);

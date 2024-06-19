@@ -3,6 +3,7 @@ package com.tms.service;
 import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
 import com.tms.dto.BookingDTO;
+import com.tms.exception.InvalidDateFormatException;
 import com.tms.exception.NoBookingRecordFoundException;
 import com.tms.payload.request.ride.CompleteRideRequest;
 import com.tms.payload.request.ride.CreateRideRequest;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -170,7 +172,7 @@ public class BookingServiceTest extends BasePostgresIntegrationTest {
     }
 
     @Test
-    public void whenCreateBookingAndSearchByInvalidDate_thenThrowsNoBookingRecordFoundException() {
+    public void whenCreateBookingAndSearchByDateWithNoBookings_thenThrowsNoBookingRecordFoundException() {
         double srcXPos = 0.0;
         double srcYPos = 0.0;
         double destXPos = 3.0;
@@ -186,5 +188,24 @@ public class BookingServiceTest extends BasePostgresIntegrationTest {
 
         String date = LocalDate.now().plusDays(1).toString();
         assertThrows(NoBookingRecordFoundException.class, () -> bookingService.getBookingsByDate(date));
+    }
+
+    @Test
+    public void whenCreateBookingAndSearchByInvalidDate_thenThrowsInvalidDateFormatException() {
+        double srcXPos = 0.0;
+        double srcYPos = 0.0;
+        double destXPos = 3.0;
+        double destYPos = 3.0;
+        double maxDistance = 5.0;
+        CreateRideRequest createRideRequest = RideServiceTestHelper
+                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
+
+        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
+        taxiRepository.saveAll(taxiList);
+
+        rideService.createRide(createRideRequest);
+
+        String date = LocalDateTime.now().toString();
+        assertThrows(InvalidDateFormatException.class, () -> bookingService.getBookingsByDate(date));
     }
 }
