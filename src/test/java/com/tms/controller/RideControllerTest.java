@@ -1,101 +1,68 @@
 package com.tms.controller;
 
-import com.tms.constant.RideStatus;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
+import com.tms.helper.BookingTestHelper;
 import com.tms.payload.request.ride.CompleteRideRequest;
 import com.tms.payload.request.ride.CreateRideRequest;
-import com.tms.payload.request.taxi.CreateTaxiRequest;
-import com.tms.payload.response.ride.CompleteRideResponse;
-import com.tms.payload.response.ride.CreateRideResponse;
-import com.tms.persistence.BasePostgresIntegrationTest;
-import com.tms.persistence.repository.BookingRepository;
-import com.tms.persistence.repository.TaxiRepository;
 import com.tms.service.RideService;
-import com.tms.service.RideServiceTestHelper;
-import com.tms.service.TaxiService;
-import com.tms.service.TaxiServiceTestHelper;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Objects;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RideControllerTest extends BasePostgresIntegrationTest {
-
-    @LocalServerPort
-    private Integer port;
+@WebMvcTest(RideController.class)
+public class RideControllerTest {
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private MockMvc mockMvc;
 
-    @Autowired
-    private BookingRepository bookingRepository;
-
-    @Autowired
-    private TaxiRepository taxiRepository;
-
-    @Autowired
-    private TaxiService taxiService;
-
-    @Autowired
+    @MockBean
     private RideService rideService;
 
-    @AfterEach
-    public void cleanUp() {
-        bookingRepository.deleteAll();
-        taxiRepository.deleteAll();
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private BookingDTO bookingDTO;
+
+    private RideDTO rideDTO;
+
+    @BeforeEach
+    public void setup() {
+        rideDTO = new RideDTO(1.0, 1.0, 3.0, 3.0);
+        bookingDTO = new BookingDTO();
+        bookingDTO.setRideDTO(rideDTO);
     }
 
     @Test
-    public void whenCreateRide_thenReturnRide() {
-        double xPos = 0.0;
-        double yPos = 0.0;
-        CreateTaxiRequest createTaxiRequest = TaxiServiceTestHelper.createTaxiRequest(xPos, yPos);
-        taxiService.createTaxi(createTaxiRequest);
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(0.0, 0.0, 3.0, 3.0, 5.0);
+    public void givenRideData_whenCreateRideBooking_thenReturnNewRideBooking() throws Exception {
 
-        ResponseEntity<CreateRideResponse> response = restTemplate
-                .postForEntity("http://localhost:" + port + "/rides", createRideRequest, CreateRideResponse.class);
+        given(rideService.createRide(any())).willReturn(BookingTestHelper.getCreateRideResponse(bookingDTO));
 
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        mockMvc.perform(post("/api/rides")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new CreateRideRequest(rideDTO, 3.0))))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    public void whenCompleteRide_thenReturnCompletedRide() {
-        double xPos = 0.0;
-        double yPos = 0.0;
-        CreateTaxiRequest createTaxiRequest = TaxiServiceTestHelper.createTaxiRequest(xPos, yPos);
-        taxiService.createTaxi(createTaxiRequest);
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(0.0, 0.0, 3.0, 3.0, 5.0);
-        CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
+    public void givenExistingRide_whenCompleteRide_thenReturnCompletedRide() throws Exception {
 
-        CompleteRideRequest completeRideRequest = RideServiceTestHelper.completeRideRequest(createRideResponse.bookingDTO());
+        given(rideService.completeRide(any())).willReturn(BookingTestHelper.getCompleteRideResponse(bookingDTO));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        HttpEntity<CompleteRideRequest> request = new HttpEntity<>(completeRideRequest, headers);
-
-        ResponseEntity<CompleteRideResponse> response = restTemplate.exchange(
-                "http://localhost:" + port + "/rides",
-                HttpMethod.PUT,
-                request,
-                CompleteRideResponse.class
-        );
-
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTO().getRideStatus()).isEqualTo(RideStatus.COMPLETED);
+        mockMvc.perform(put("/api/rides")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new CompleteRideRequest(bookingDTO))))
+                .andExpect(status().isAccepted());
     }
 }

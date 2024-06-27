@@ -2,129 +2,92 @@ package com.tms.controller;
 
 import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
-import com.tms.payload.request.ride.CreateRideRequest;
-import com.tms.payload.request.taxi.CreateTaxiRequest;
-import com.tms.payload.response.booking.BookingListResponse;
-import com.tms.payload.response.taxi.TaxiListResponse;
-import com.tms.persistence.BasePostgresIntegrationTest;
-import com.tms.persistence.repository.BookingRepository;
-import com.tms.persistence.repository.TaxiRepository;
-import com.tms.service.RideService;
-import com.tms.service.RideServiceTestHelper;
+import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
+import com.tms.dto.TaxiDTO;
+import com.tms.helper.BookingTestHelper;
+import com.tms.helper.TaxiTestHelper;
+import com.tms.service.BookingService;
 import com.tms.service.TaxiService;
-import com.tms.service.TaxiServiceTestHelper;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DashboardControllerTest extends BasePostgresIntegrationTest {
-
-    @LocalServerPort
-    private Integer port;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
+@WebMvcTest(DashboardController.class)
+public class DashboardControllerTest {
 
     @Autowired
-    private BookingRepository bookingRepository;
+    private MockMvc mockMvc;
 
-    @Autowired
-    private TaxiRepository taxiRepository;
+    @MockBean
+    private BookingService bookingService;
 
-    @Autowired
+    @MockBean
     private TaxiService taxiService;
 
-    @Autowired
-    private RideService rideService;
+    private BookingDTO bookingDTO;
 
-    @AfterEach
-    public void cleanUp() {
-        bookingRepository.deleteAll();
-        taxiRepository.deleteAll();
+    @BeforeEach
+    public void setup() {
+        RideDTO rideDTO = new RideDTO(1.0, 1.0, 3.0, 3.0);
+        bookingDTO = new BookingDTO();
+        bookingDTO.setRideDTO(rideDTO);
+        bookingDTO.setRideStatus(RideStatus.IN_PROGRESS);
+        bookingDTO.setRideStartTime(LocalDateTime.now());
     }
 
     @Test
-    public void whenGetBookings_thenReturnAllBookings() {
-        double xPos = 0.0;
-        double yPos = 0.0;
-        CreateTaxiRequest createTaxiRequest = TaxiServiceTestHelper.createTaxiRequest(xPos, yPos);
-        taxiService.createTaxi(createTaxiRequest);
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(0.0, 0.0, 3.0, 3.0, 5.0);
-        rideService.createRide(createRideRequest);
+    public void givenBookingObject_whenGetBookings_thenReturnBookings() throws Exception {
+        given(bookingService.getBookings()).willReturn(BookingTestHelper.getBookingListResponse(Collections.singletonList(bookingDTO)));
 
-        ResponseEntity<BookingListResponse> response = restTemplate
-                .getForEntity("http://localhost:" + port + "/dashboard/bookings", BookingListResponse.class);
-
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList()).hasSize(1);
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList().getFirst().getBookingId()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList().getFirst().getRideStatus()).isEqualTo(RideStatus.IN_PROGRESS);
+        mockMvc.perform(get("/api/dashboard/bookings")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void whenGetBookingsByStatus_thenReturnAllBookingsByStatus() {
-        double xPos = 0.0;
-        double yPos = 0.0;
-        CreateTaxiRequest createTaxiRequest = TaxiServiceTestHelper.createTaxiRequest(xPos, yPos);
-        taxiService.createTaxi(createTaxiRequest);
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(0.0, 0.0, 3.0, 3.0, 5.0);
-        rideService.createRide(createRideRequest);
+    public void givenBookingObject_whenGetBookingsByStatus_thenReturnBookings() throws Exception {
+        given(bookingService.getBookingsByRideStatus(any())).willReturn(BookingTestHelper.getBookingListResponse(Collections.singletonList(bookingDTO)));
 
-        ResponseEntity<BookingListResponse> response = restTemplate
-                .getForEntity("http://localhost:" + port + "/dashboard/bookings/status?status=" + RideStatus.IN_PROGRESS, BookingListResponse.class);
-
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList()).hasSize(1);
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList().getFirst().getBookingId()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList().getFirst().getRideStatus()).isEqualTo(RideStatus.IN_PROGRESS);
+        mockMvc.perform(get("/api/dashboard/bookings/status?status={rideStatus}", RideStatus.IN_PROGRESS)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void whenGetBookingsByDate_thenReturnAllBookingsByDate() {
-        double xPos = 0.0;
-        double yPos = 0.0;
-        CreateTaxiRequest createTaxiRequest = TaxiServiceTestHelper.createTaxiRequest(xPos, yPos);
-        taxiService.createTaxi(createTaxiRequest);
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(0.0, 0.0, 3.0, 3.0, 5.0);
-        rideService.createRide(createRideRequest);
+    public void givenBookingObject_whenGetBookingsByDate_thenReturnBookings() throws Exception {
+        given(bookingService.getBookingsByDate(any())).willReturn(BookingTestHelper.getBookingListResponse(Collections.singletonList(bookingDTO)));
 
-        ResponseEntity<BookingListResponse> response = restTemplate
-                .getForEntity("http://localhost:" + port + "/dashboard/bookings/date?date=" + LocalDate.now(), BookingListResponse.class);
-
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList()).hasSize(1);
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList().getFirst().getBookingId()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).bookingDTOList().getFirst().getRideStartTime().toLocalDate()).isEqualTo(LocalDate.now());
+        mockMvc.perform(get("/api/dashboard/bookings/date?date={date}", LocalDate.now().toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void whenGetTaxiByStatus_thenReturnAllTaxisByStatus() {
-        double xPos = 0.0;
-        double yPos = 0.0;
-        CreateTaxiRequest createTaxiRequest = TaxiServiceTestHelper.createTaxiRequest(xPos, yPos);
-        taxiService.createTaxi(createTaxiRequest);
+    public void givenTaxiObject_whenGetTaxisByStatus_thenReturnTaxis() throws Exception {
+        TaxiDTO taxiDTO = new TaxiDTO();
+        taxiDTO.setTaxiId(UUID.randomUUID().toString());
+        taxiDTO.setTaxiStatus(TaxiStatus.AVAILABLE);
+        taxiDTO.setCurrXPos(1.0);
+        taxiDTO.setCurrYPos(1.0);
+        given(taxiService.getTaxiByStatus(any())).willReturn(TaxiTestHelper.getTaxiListResponse(Collections.singletonList(taxiDTO)));
 
-        ResponseEntity<TaxiListResponse> response = restTemplate
-                .getForEntity("http://localhost:" + port + "/dashboard/taxis/status?status=" + TaxiStatus.AVAILABLE, TaxiListResponse.class);
-
-        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).taxiDTOList()).hasSize(1);
-        assertThat(Objects.requireNonNull(response.getBody()).taxiDTOList().getFirst().getTaxiId()).isNotNull();
-        assertThat(Objects.requireNonNull(response.getBody()).taxiDTOList().getFirst().getTaxiStatus()).isEqualTo(TaxiStatus.AVAILABLE);
+        mockMvc.perform(get("/api/dashboard/taxis/status?status={status}", taxiDTO.getTaxiStatus())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

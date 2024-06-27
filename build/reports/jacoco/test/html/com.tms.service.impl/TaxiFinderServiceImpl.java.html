@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaxiFinderServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taxi-management-service</a> &gt; <a href="index.source.html" class="el_package">com.tms.service.impl</a> &gt; <span class="el_source">TaxiFinderServiceImpl.java</span></div><h1>TaxiFinderServiceImpl.java</h1><pre class="source lang-java linenums">package com.tms.service.impl;
+
+import com.tms.constant.TaxiStatus;
+import com.tms.dto.RideDTO;
+import com.tms.dto.TaxiDTO;
+import com.tms.exception.NoTaxiAvailableException;
+import com.tms.exception.NoTaxiAvailableNearbyException;
+import com.tms.mapper.TaxiModelMapper;
+import com.tms.payload.request.ride.CreateRideRequest;
+import com.tms.persistence.entity.Taxi;
+import com.tms.persistence.repository.TaxiRepository;
+import com.tms.service.TaxiFinderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+
+@Service
+public class TaxiFinderServiceImpl implements TaxiFinderService {
+
+<span class="fc" id="L23">    private static final Logger LOGGER = LoggerFactory.getLogger(TaxiFinderServiceImpl.class);</span>
+
+    private final TaxiRepository taxiRepository;
+
+    private final TaxiModelMapper taxiModelMapper;
+
+<span class="fc" id="L29">    public TaxiFinderServiceImpl(TaxiRepository taxiRepository, TaxiModelMapper taxiModelMapper) {</span>
+<span class="fc" id="L30">        this.taxiRepository = taxiRepository;</span>
+<span class="fc" id="L31">        this.taxiModelMapper = taxiModelMapper;</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public TaxiDTO getNearestAvailableTaxi(CreateRideRequest createRideRequest) {
+<span class="fc" id="L36">        RideDTO rideDTO = createRideRequest.rideDTO();</span>
+<span class="fc" id="L37">        return getAvailableTaxis().stream()</span>
+<span class="pc" id="L38">                .min(Comparator.comparingDouble(taxi -&gt; calculateDistance(rideDTO, taxi)))</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                .filter(taxi -&gt; createRideRequest.maxDistance() &gt; calculateDistance(rideDTO, taxi))</span>
+<span class="fc" id="L40">                .orElseThrow(() -&gt; new NoTaxiAvailableNearbyException(&quot;Currently no taxi available nearby.&quot;));</span>
+    }
+
+    private List&lt;TaxiDTO&gt; getAvailableTaxis() {
+<span class="fc" id="L44">        List&lt;Taxi&gt; availableTaxis = taxiRepository.findByTaxiStatus(TaxiStatus.AVAILABLE);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (availableTaxis.isEmpty()) {</span>
+<span class="fc" id="L46">            LOGGER.error(&quot;No taxi currently available.&quot;);</span>
+<span class="fc" id="L47">            throw new NoTaxiAvailableException(&quot;No taxi currently available.&quot;);</span>
+        }
+<span class="fc" id="L49">        return taxiModelMapper.getDTOList(availableTaxis);</span>
+    }
+
+    private Double calculateDistance(RideDTO rideDTO, TaxiDTO taxiDTO) {
+<span class="fc" id="L53">        double xCordDist = taxiDTO.getCurrXPos() - rideDTO.srcXPos();</span>
+<span class="fc" id="L54">        double yCordDist = taxiDTO.getCurrYPos() - rideDTO.srcYPos();</span>
+<span class="fc" id="L55">        double xCordDistSquare = xCordDist * xCordDist;</span>
+<span class="fc" id="L56">        double yCordDistSquare = yCordDist * yCordDist;</span>
+<span class="fc" id="L57">        return Math.sqrt(xCordDistSquare + yCordDistSquare);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RideValidationServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taxi-management-service</a> &gt; <a href="index.source.html" class="el_package">com.tms.validation.impl</a> &gt; <span class="el_source">RideValidationServiceImpl.java</span></div><h1>RideValidationServiceImpl.java</h1><pre class="source lang-java linenums">package com.tms.validation.impl;
+
+import com.tms.constant.RideStatus;
+import com.tms.constant.TaxiStatus;
+import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
+import com.tms.exception.CompleteRideException;
+import com.tms.exception.NewBookingException;
+import com.tms.payload.request.ride.CompleteRideRequest;
+import com.tms.payload.request.ride.CreateRideRequest;
+import com.tms.persistence.repository.BookingRepository;
+import com.tms.validation.RideValidationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RideValidationServiceImpl implements RideValidationService {
+
+<span class="fc" id="L20">    private static final Logger LOGGER = LoggerFactory.getLogger(RideValidationServiceImpl.class);</span>
+
+    private final BookingRepository bookingRepository;
+
+<span class="fc" id="L24">    public RideValidationServiceImpl(BookingRepository bookingRepository) {</span>
+<span class="fc" id="L25">        this.bookingRepository = bookingRepository;</span>
+<span class="fc" id="L26">    }</span>
+
+
+    @Override
+    public void validateCreateRide(CreateRideRequest createRideRequest) {
+<span class="fc" id="L31">        RideDTO rideDTO = createRideRequest.rideDTO();</span>
+
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        if (rideDTO.srcXPos() == null || rideDTO.srcYPos() == null) {</span>
+<span class="fc" id="L34">            LOGGER.error(&quot;Source coordinates missing.&quot;);</span>
+<span class="fc" id="L35">            throw new NewBookingException(&quot;Source coordinates missing.&quot;);</span>
+        }
+
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">        if (rideDTO.destXPos() == null || rideDTO.destYPos() == null) {</span>
+<span class="fc" id="L39">            LOGGER.error(&quot;Destination coordinates missing.&quot;);</span>
+<span class="fc" id="L40">            throw new NewBookingException(&quot;Destination coordinates missing.&quot;);</span>
+        }
+<span class="fc" id="L42">    }</span>
+
+    @Override
+    public void validateCompleteRide(CompleteRideRequest completeRideRequest) {
+<span class="fc" id="L46">        BookingDTO bookingDTO = completeRideRequest.bookingDTO();</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (bookingDTO.getBookingId() == null) {</span>
+<span class="fc" id="L49">            LOGGER.error(&quot;Booking id missing.&quot;);</span>
+<span class="fc" id="L50">            throw new CompleteRideException(&quot;Booking id missing&quot;);</span>
+        }
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (bookingDTO.getTaxiDTO().getTaxiStatus().equals(TaxiStatus.AVAILABLE)) {</span>
+<span class="fc" id="L54">            LOGGER.error(&quot;Invalid taxi status.&quot;);</span>
+<span class="fc" id="L55">            throw new CompleteRideException(&quot;Invalid taxi status&quot;);</span>
+        }
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (bookingDTO.getRideStatus().equals(RideStatus.COMPLETED)) {</span>
+<span class="fc" id="L59">            LOGGER.error(&quot;Invalid ride status.&quot;);</span>
+<span class="fc" id="L60">            throw new CompleteRideException(&quot;Invalid ride status&quot;);</span>
+        }
+<span class="fc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

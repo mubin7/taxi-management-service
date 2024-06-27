@@ -4,88 +4,82 @@ import com.tms.constant.TaxiStatus;
 import com.tms.dto.TaxiDTO;
 import com.tms.exception.NoTaxiAvailableException;
 import com.tms.exception.NoTaxiAvailableNearbyException;
+import com.tms.helper.BookingTestHelper;
+import com.tms.helper.TaxiTestHelper;
+import com.tms.mapper.TaxiModelMapper;
 import com.tms.payload.request.ride.CreateRideRequest;
-import com.tms.persistence.BasePostgresIntegrationTest;
-import com.tms.persistence.TaxiRepositoryTestHelper;
 import com.tms.persistence.entity.Taxi;
 import com.tms.persistence.repository.TaxiRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.tms.service.impl.TaxiFinderServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.mockito.BDDMockito;
+import org.mockito.Mockito;
 
-import java.util.List;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
-@Testcontainers
-@SpringBootTest
-public class TaxiFinderServiceTest extends BasePostgresIntegrationTest {
+public class TaxiFinderServiceTest {
 
-    @Autowired
     private TaxiFinderService taxiFinderService;
 
-    @Autowired
     private TaxiRepository taxiRepository;
 
-    @AfterEach
-    public void cleanUp() {
-        taxiRepository.deleteAll();
+    private TaxiModelMapper taxiModelMapper;
+
+    private Taxi taxi;
+
+    private TaxiDTO taxiDTO;
+
+    private CreateRideRequest createRideRequest;
+
+    @BeforeEach
+    public void setup() {
+        taxiRepository = Mockito.mock(TaxiRepository.class);
+        taxiModelMapper = Mockito.mock(TaxiModelMapper.class);
+        taxiFinderService = new TaxiFinderServiceImpl(taxiRepository, taxiModelMapper);
+
+        double xPos = 0.0;
+        double yPos = 0.0;
+        taxi = TaxiTestHelper.getTaxiWithStatusAndPosition(TaxiStatus.AVAILABLE, xPos, yPos);
+        taxiDTO = TaxiTestHelper.getTaxiDTOWithStatusAndPosition(TaxiStatus.AVAILABLE, xPos, yPos);
+
+        createRideRequest = BookingTestHelper.getRideRequest(1.0, 1.0, 3.0, 3.0, 3.0);
     }
 
     @Test
-    public void whenCreateRideRequest_thenFindNearestAvailableTaxi() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
+    public void givenTaxiAvailable_whenSearchForNearestAvailableTaxi_thenReturnNearestAvailableTaxi() {
+        BDDMockito.given(taxiRepository.findByTaxiStatus(any())).willReturn(Collections.singletonList(taxi));
+        BDDMockito.given(taxiModelMapper.getDTOList(any())).willReturn(Collections.singletonList(taxiDTO));
+        TaxiDTO nearestAvailableTaxiDTO = taxiFinderService.getNearestAvailableTaxi(
+                createRideRequest);
 
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        TaxiDTO nearestTaxi = taxiFinderService.getNearestAvailableTaxi(createRideRequest);
-        assertThat(nearestTaxi).isNotNull();
-        assertThat(nearestTaxi.getTaxiId()).isNotNull();
-        assertThat(nearestTaxi.getTaxiStatus()).isEqualTo(TaxiStatus.AVAILABLE);
-        assertThat(nearestTaxi.getCurrXPos()).isEqualTo(srcXPos);
-        assertThat(nearestTaxi.getCurrYPos()).isEqualTo(srcYPos);
+        assertThat(nearestAvailableTaxiDTO).isNotNull();
+        assertThat(nearestAvailableTaxiDTO.getTaxiStatus()).isEqualTo(taxi.getTaxiStatus());
     }
 
     @Test
-    public void whenCreateRideRequestAndNoTaxiAvailable_thenThrowsNoTaxiAvailableException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.BOOKED);
-        taxiRepository.saveAll(taxiList);
+    public void givenTaxiNotAvailable_whenSearchForNearestAvailableTaxi_thenReturnThrowNoTaxiAvailableException() {
+        BDDMockito.given(taxiRepository.findByTaxiStatus(any())).willReturn(Collections.emptyList());
+        BDDMockito.given(taxiModelMapper.getDTOList(any())).willReturn(Collections.singletonList(taxiDTO));
 
         assertThrows(NoTaxiAvailableException.class, () -> taxiFinderService.getNearestAvailableTaxi(createRideRequest));
     }
 
     @Test
-    public void whenCreateRideRequestAndTaxiOutOfRange_thenThrowsNoTaxiAvailableNearbyException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        Taxi taxi = TaxiRepositoryTestHelper.createTaxi(10.0, 10.0);
-        taxiRepository.save(taxi);
+    public void givenTaxiAvailableOutOfRange_whenSearchForNearestAvailableTaxi_thenReturnThrowNoTaxiAvailableNearbyException() {
+        double taxiSrcX = 5.0;
+        double taxiSrcY = 5.0;
+        BDDMockito.given(taxiRepository.findByTaxiStatus(any()))
+                .willReturn(Collections.singletonList(TaxiTestHelper
+                        .getTaxiWithStatusAndPosition(TaxiStatus.AVAILABLE, taxiSrcX, taxiSrcY)));
+        BDDMockito.given(taxiModelMapper.getDTOList(any()))
+                .willReturn(Collections.singletonList(TaxiTestHelper
+                        .getTaxiDTOWithStatusAndPosition(TaxiStatus.AVAILABLE, taxiSrcX, taxiSrcY)));
 
         assertThrows(NoTaxiAvailableNearbyException.class, () -> taxiFinderService.getNearestAvailableTaxi(createRideRequest));
     }
-
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaxiValidationServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taxi-management-service</a> &gt; <a href="index.source.html" class="el_package">com.tms.validation.impl</a> &gt; <span class="el_source">TaxiValidationServiceImpl.java</span></div><h1>TaxiValidationServiceImpl.java</h1><pre class="source lang-java linenums">package com.tms.validation.impl;
+
+import com.tms.constant.TaxiStatus;
+import com.tms.dto.TaxiDTO;
+import com.tms.exception.NoTaxiRecordFoundException;
+import com.tms.exception.TaxiCreationException;
+import com.tms.exception.TaxiUpdateException;
+import com.tms.payload.request.taxi.CreateTaxiRequest;
+import com.tms.payload.request.taxi.TaxiUpdateRequest;
+import com.tms.persistence.entity.Taxi;
+import com.tms.persistence.repository.BookingRepository;
+import com.tms.persistence.repository.TaxiRepository;
+import com.tms.validation.TaxiValidationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class TaxiValidationServiceImpl implements TaxiValidationService {
+
+<span class="fc" id="L23">    private static final Logger LOGGER = LoggerFactory.getLogger(TaxiValidationServiceImpl.class);</span>
+
+    private final TaxiRepository taxiRepository;
+
+<span class="fc" id="L27">    public TaxiValidationServiceImpl(TaxiRepository taxiRepository) {</span>
+<span class="fc" id="L28">        this.taxiRepository = taxiRepository;</span>
+<span class="fc" id="L29">    }</span>
+
+    @Override
+    public void validateUpdateTaxi(TaxiUpdateRequest taxiUpdateRequest) {
+<span class="fc" id="L33">        TaxiDTO taxiDTO = taxiUpdateRequest.taxiDTO();</span>
+<span class="fc" id="L34">        Optional&lt;Taxi&gt; optionalTaxi = taxiRepository.findById(taxiDTO.getTaxiId());</span>
+<span class="fc" id="L35">        Taxi taxi = optionalTaxi.orElseThrow(() -&gt; new NoTaxiRecordFoundException(&quot;No taxi details found for id : &quot; + taxiDTO.getTaxiId()));</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (taxi.getTaxiStatus().equals(TaxiStatus.BOOKED)) {</span>
+<span class="fc" id="L38">            LOGGER.error(&quot;Ride in progress. Please complete the ride to update the taxi status.&quot;);</span>
+<span class="fc" id="L39">            throw new TaxiUpdateException(&quot;Ride in progress. Please complete the ride to update the taxi status.&quot;);</span>
+        }
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (taxiDTO.getTaxiStatus().equals(TaxiStatus.BOOKED)) {</span>
+<span class="fc" id="L43">            LOGGER.error(&quot;Invalid booking status. (Only AVAILABLE and NOT_AVAILABLE allowed)&quot;);</span>
+<span class="fc" id="L44">            throw new TaxiUpdateException(&quot;Invalid booking status. (Only AVAILABLE and NOT_AVAILABLE allowed)&quot;);</span>
+        }
+<span class="fc" id="L46">    }</span>
+
+    @Override
+    public void validateCreateTaxi(CreateTaxiRequest createTaxiRequest) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (createTaxiRequest.taxiDTO() == null) {</span>
+<span class="fc" id="L51">            LOGGER.error(&quot;Please provide taxi details.&quot;);</span>
+<span class="fc" id="L52">            throw new TaxiCreationException(&quot;Please provide taxi details.&quot;);</span>
+        }
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        if (createTaxiRequest.taxiDTO().getCurrXPos() == null || createTaxiRequest.taxiDTO().getCurrYPos() == null) {</span>
+<span class="fc" id="L55">            LOGGER.error(&quot;Please provide taxi coordinates.&quot;);</span>
+<span class="fc" id="L56">            throw new TaxiCreationException(&quot;Please provide taxi coordinates.&quot;);</span>
+        }
+<span class="fc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

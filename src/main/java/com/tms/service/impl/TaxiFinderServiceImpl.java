@@ -46,7 +46,7 @@ public class TaxiFinderServiceImpl implements TaxiFinderService {
             LOGGER.error("No taxi currently available.");
             throw new NoTaxiAvailableException("No taxi currently available.");
         }
-        return taxiModelMapper.getModelList(availableTaxis);
+        return taxiModelMapper.getDTOList(availableTaxis);
     }
 
     private Double calculateDistance(RideDTO rideDTO, TaxiDTO taxiDTO) {

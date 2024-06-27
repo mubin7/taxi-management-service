@@ -4,7 +4,6 @@ import com.tms.dto.BookingDTO;
 import com.tms.dto.RideDTO;
 import com.tms.dto.TaxiDTO;
 import com.tms.persistence.entity.Booking;
-import com.tms.persistence.entity.Taxi;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ public class BookingModelMapper {
     @Autowired
     private TaxiModelMapper taxiModelMapper;
 
-    public Booking getEntity(RideDTO rideDTO) {
+    public Booking getModel(RideDTO rideDTO) {
         Booking booking = new Booking();
         booking.setSrcXPos(rideDTO.srcXPos());
         booking.setSrcYPos(rideDTO.srcYPos());
@@ -30,15 +29,8 @@ public class BookingModelMapper {
         return booking;
     }
 
-    public Booking getEntity(BookingDTO bookingDTO) {
-        Taxi taxi = taxiModelMapper.getEntity(bookingDTO.getTaxiDTO());
-        Booking booking = modelMapper.map(bookingDTO, Booking.class);
-        booking.setTaxi(taxi);
-        return booking;
-    }
-
     public BookingDTO getDTO(Booking booking) {
-        TaxiDTO taxiDTO = taxiModelMapper.getModel(booking.getTaxi());
+        TaxiDTO taxiDTO = taxiModelMapper.getDTO(booking.getTaxi());
         BookingDTO bookingDTO = modelMapper.map(booking, BookingDTO.class);
         bookingDTO.setTaxiDTO(taxiDTO);
         RideDTO rideDTO = new RideDTO(booking.getSrcXPos(), booking.getSrcYPos(), booking.getDestXPos(), booking.getDestYPos());

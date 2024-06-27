@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tms.validation.RideValidationServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-06-27T22:16:41" hostname="Mubins-MacBook-Air.local" time="0.013">
+  <properties/>
+  <testcase name="givenCompleteRideDataWithoutBookingId_whenCompleteRideRequest_thenThrowCompleteRideException()" classname="com.tms.validation.RideValidationServiceTest" time="0.003"/>
+  <testcase name="givenValidCompleteRideData_whenCompleteRideRequest_thenDoNothing()" classname="com.tms.validation.RideValidationServiceTest" time="0.001"/>
+  <testcase name="givenValidCreateRideData_whenCreateRideRequest_thenDoNothing()" classname="com.tms.validation.RideValidationServiceTest" time="0.001"/>
+  <testcase name="givenMissingDestinationCoordinatesInCreateRide_whenCreateRideRequest_thenThrowNewBookingException()" classname="com.tms.validation.RideValidationServiceTest" time="0.001"/>
+  <testcase name="givenMissingSourceCoordinatesInCreateRide_whenCreateRideRequest_thenThrowNewBookingException()" classname="com.tms.validation.RideValidationServiceTest" time="0.002"/>
+  <testcase name="givenInvalidRideStatus_whenCompleteRideRequest_thenThrowCompleteRideException()" classname="com.tms.validation.RideValidationServiceTest" time="0.001"/>
+  <testcase name="givenInvalidTaxiStatus_whenCompleteRideRequest_thenThrowCompleteRideException()" classname="com.tms.validation.RideValidationServiceTest" time="0.001"/>
+  <system-out><![CDATA[2024-06-28T02:16:41.599+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.t.v.impl.RideValidationServiceImpl     : Booking id missing.
+2024-06-28T02:16:41.604+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.t.v.impl.RideValidationServiceImpl     : Destination coordinates missing.
+2024-06-28T02:16:41.606+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.t.v.impl.RideValidationServiceImpl     : Source coordinates missing.
+2024-06-28T02:16:41.608+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.t.v.impl.RideValidationServiceImpl     : Invalid ride status.
+2024-06-28T02:16:41.609+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.t.v.impl.RideValidationServiceImpl     : Invalid taxi status.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

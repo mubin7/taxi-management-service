@@ -2,9 +2,7 @@ package com.tms.persistence.entity;
 
 import com.tms.constant.TaxiStatus;
 import jakarta.persistence.*;
-import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 @Entity

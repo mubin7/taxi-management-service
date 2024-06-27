@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tms.service.TaxiFinderServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-06-27T22:16:41" hostname="Mubins-MacBook-Air.local" time="0.041">
+  <properties/>
+  <testcase name="givenTaxiNotAvailable_whenSearchForNearestAvailableTaxi_thenReturnThrowNoTaxiAvailableException()" classname="com.tms.service.TaxiFinderServiceTest" time="0.034"/>
+  <testcase name="givenTaxiAvailableOutOfRange_whenSearchForNearestAvailableTaxi_thenReturnThrowNoTaxiAvailableNearbyException()" classname="com.tms.service.TaxiFinderServiceTest" time="0.004"/>
+  <testcase name="givenTaxiAvailable_whenSearchForNearestAvailableTaxi_thenReturnNearestAvailableTaxi()" classname="com.tms.service.TaxiFinderServiceTest" time="0.002"/>
+  <system-out><![CDATA[2024-06-28T02:16:41.534+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.t.service.impl.TaxiFinderServiceImpl   : No taxi currently available.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

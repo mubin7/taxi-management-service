@@ -96,7 +96,7 @@ public class Booking {
         return "Booking{" +
                 "bookingId='" + bookingId + '\'' +
                 ", taxi=" + taxi +
-                ", journeyStatus=" + rideStatus +
+                ", rideStatus=" + rideStatus +
                 ", srcXPos=" + srcXPos +
                 ", srcYPos=" + srcYPos +
                 ", destXPos=" + destXPos +

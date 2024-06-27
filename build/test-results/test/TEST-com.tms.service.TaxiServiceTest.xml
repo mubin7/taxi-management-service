@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tms.service.TaxiServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-06-27T22:16:41" hostname="Mubins-MacBook-Air.local" time="0.052">
+  <properties/>
+  <testcase name="givenNoTaxiRecord_whenGetTaxis_thenThrowNoTaxiRecordFoundException()" classname="com.tms.service.TaxiServiceTest" time="0.034"/>
+  <testcase name="givenValidTaxiDTO_whenCreateTaxi_thenReturnSavedTaxiDTO()" classname="com.tms.service.TaxiServiceTest" time="0.003"/>
+  <testcase name="givenTaxiRecord_whenUpdateTaxi_thenReturnUpdatedTaxiRecord()" classname="com.tms.service.TaxiServiceTest" time="0.003"/>
+  <testcase name="givenTaxiRecord_whenGetTaxiById_thenReturnTaxiRecordWithId()" classname="com.tms.service.TaxiServiceTest" time="0.001"/>
+  <testcase name="givenNoTaxiRecord_whenGetTaxiById_thenThrowNoTaxiRecordFoundException()" classname="com.tms.service.TaxiServiceTest" time="0.002"/>
+  <testcase name="givenTaxiRecord_whenGetTaxis_thenReturnTaxiRecords()" classname="com.tms.service.TaxiServiceTest" time="0.002"/>
+  <testcase name="givenNoTaxiRecord_whenGetTaxiByStatus_thenThrowNoTaxiRecordFoundException()" classname="com.tms.service.TaxiServiceTest" time="0.002"/>
+  <testcase name="givenTaxiRecord_whenGetTaxiByStatus_thenReturnTaxiRecordWithStatus()" classname="com.tms.service.TaxiServiceTest" time="0.002"/>
+  <system-out><![CDATA[2024-06-28T02:16:41.576+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] com.tms.service.impl.TaxiServiceImpl     : No taxi record(s) found.
+2024-06-28T02:16:41.579+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.service.impl.TaxiServiceImpl     : validating create taxi request
+2024-06-28T02:16:41.579+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.service.impl.TaxiServiceImpl     : creating new taxi record
+2024-06-28T02:16:41.581+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.service.impl.TaxiServiceImpl     : validating update taxi request
+2024-06-28T02:16:41.582+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.service.impl.TaxiServiceImpl     : updating taxi details : Taxi{taxiId='null', taxiStatus=AVAILABLE, currXPos=0.0, currYPos=0.0}
+2024-06-28T02:16:41.592+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] com.tms.service.impl.TaxiServiceImpl     : No taxi record(s) found for the status : AVAILABLE
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

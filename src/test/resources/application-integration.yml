@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: taxi-management-service
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true

@@ -43,14 +43,14 @@ public class TaxiServiceImpl implements TaxiService {
             LOGGER.error("No taxi record(s) found.");
             throw new NoTaxiRecordFoundException("No taxi record(s) found.");
         }
-        List<TaxiDTO> taxiDTOList = taxiModelMapper.getModelList(taxiList);
+        List<TaxiDTO> taxiDTOList = taxiModelMapper.getDTOList(taxiList);
         return new TaxiListResponse(taxiDTOList);
     }
 
     @Override
     public TaxiDTO getTaxi(String taxiId) {
         Taxi taxi = getTaxiEntity(taxiId);
-        return taxiModelMapper.getModel(taxi);
+        return taxiModelMapper.getDTO(taxi);
     }
 
     @Override
@@ -65,13 +65,13 @@ public class TaxiServiceImpl implements TaxiService {
         taxi.setCurrYPos(taxiDTO.getCurrYPos());
         LOGGER.info("updating taxi details : " + taxi);
         Taxi persistedTaxi = taxiRepository.save(taxi);
-        return new TaxiUpdateResponse(taxiModelMapper.getModel(persistedTaxi));
+        return new TaxiUpdateResponse(taxiModelMapper.getDTO(persistedTaxi));
     }
 
-    private Taxi getTaxiEntity(String taxiDTO) {
-        Optional<Taxi> optionalTaxi = taxiRepository.findById(taxiDTO);
+    private Taxi getTaxiEntity(String taxiId) {
+        Optional<Taxi> optionalTaxi = taxiRepository.findById(taxiId);
         return optionalTaxi.orElseThrow(
-                () -> new NoTaxiRecordFoundException("No taxi details found for id : " + taxiDTO));
+                () -> new NoTaxiRecordFoundException("No taxi details found for id : " + taxiId));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class TaxiServiceImpl implements TaxiService {
         taxi.setTaxiStatus(TaxiStatus.AVAILABLE);
         LOGGER.info("creating new taxi record");
         Taxi persistedTaxi = taxiRepository.save(taxi);
-        return new CreateTaxiResponse(taxiModelMapper.getModel(persistedTaxi));
+        return new CreateTaxiResponse(taxiModelMapper.getDTO(persistedTaxi));
     }
 
     @Override
@@ -92,7 +92,7 @@ public class TaxiServiceImpl implements TaxiService {
             LOGGER.error("No taxi record(s) found for the status : {}", taxiStatus);
             throw new NoTaxiRecordFoundException("No taxi record(s) found for the status : " + taxiStatus);
         }
-        List<TaxiDTO> taxiDTOList = taxiModelMapper.getModelList(taxiList);
+        List<TaxiDTO> taxiDTOList = taxiModelMapper.getDTOList(taxiList);
         return new TaxiListResponse(taxiDTOList);
     }
 }

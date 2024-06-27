@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaxiController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taxi-management-service</a> &gt; <a href="index.source.html" class="el_package">com.tms.controller</a> &gt; <span class="el_source">TaxiController.java</span></div><h1>TaxiController.java</h1><pre class="source lang-java linenums">package com.tms.controller;
+
+import com.tms.dto.TaxiDTO;
+import com.tms.payload.request.taxi.CreateTaxiRequest;
+import com.tms.payload.request.taxi.TaxiUpdateRequest;
+import com.tms.payload.response.taxi.CreateTaxiResponse;
+import com.tms.payload.response.taxi.TaxiListResponse;
+import com.tms.payload.response.taxi.TaxiUpdateResponse;
+import com.tms.service.TaxiService;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(&quot;/api/taxis&quot;)
+public class TaxiController {
+
+    private final TaxiService taxiService;
+
+<span class="fc" id="L21">    public TaxiController(TaxiService taxiService) {</span>
+<span class="fc" id="L22">        this.taxiService = taxiService;</span>
+<span class="fc" id="L23">    }</span>
+
+    @GetMapping
+    @Operation(summary = &quot;Get list of taxis registered in the system.&quot;)
+    public ResponseEntity&lt;TaxiListResponse&gt; getTaxis() {
+<span class="fc" id="L28">        TaxiListResponse taxiListResponse = taxiService.getTaxis();</span>
+<span class="fc" id="L29">        return new ResponseEntity&lt;&gt;(taxiListResponse, HttpStatus.OK);</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    @Operation(summary = &quot;Get taxi details using taxi id.&quot;)
+    public ResponseEntity&lt;TaxiDTO&gt; getTaxi(@PathVariable(&quot;id&quot;) String taxiId) {
+<span class="fc" id="L35">        TaxiDTO taxiDTO = taxiService.getTaxi(taxiId);</span>
+<span class="fc" id="L36">        return new ResponseEntity&lt;&gt;(taxiDTO, HttpStatus.OK);</span>
+    }
+
+    @PostMapping
+    @Operation(summary = &quot;Register new taxi in the system using the x &amp; y coordinates.&quot;)
+    public ResponseEntity&lt;CreateTaxiResponse&gt; createTaxi(@RequestBody CreateTaxiRequest createTaxiRequest) {
+<span class="fc" id="L42">        CreateTaxiResponse createTaxiResponse = taxiService.createTaxi(createTaxiRequest);</span>
+<span class="fc" id="L43">        return new ResponseEntity&lt;&gt;(createTaxiResponse, HttpStatus.CREATED);</span>
+    }
+
+    @PutMapping
+    @Operation(summary = &quot;Update taxi status whether available or not available.&quot;)
+    public ResponseEntity&lt;TaxiUpdateResponse&gt; updateTaxi(@RequestBody TaxiUpdateRequest taxiUpdateRequest) {
+<span class="fc" id="L49">        TaxiUpdateResponse taxiUpdateResponse = taxiService.updateTaxi(taxiUpdateRequest);</span>
+<span class="fc" id="L50">        return new ResponseEntity&lt;&gt;(taxiUpdateResponse, HttpStatus.OK);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

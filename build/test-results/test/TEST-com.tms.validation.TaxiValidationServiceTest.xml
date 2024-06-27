@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tms.validation.TaxiValidationServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-06-27T22:16:33" hostname="Mubins-MacBook-Air.local" time="1.139">
+  <properties/>
+  <testcase name="givenTaxiRecord_whenTaxiUpdateRequestToChangeStatusToBooked_thenThrowTaxiUpdateException()" classname="com.tms.validation.TaxiValidationServiceTest" time="1.124"/>
+  <testcase name="givenNullTaxiCurrentYPosition_whenCreateTaxiRequest_thenThrowTaxiCreationException()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.001"/>
+  <testcase name="givenTaxiRecordWithRideInProgress_whenTaxiUpdateRequestToChangeStatus_thenThrowTaxiUpdateException()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.001"/>
+  <testcase name="givenNullTaxiCurrentXPosition_whenCreateTaxiRequest_thenThrowTaxiCreationException()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.001"/>
+  <testcase name="givenNoTaxiRecord_whenTaxiUpdateRequest_thenThrowNoTaxiRecordFoundException()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.001"/>
+  <testcase name="givenValidTaxiData_whenCreateTaxiRequest_thenDoNothing()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.002"/>
+  <testcase name="givenEmptyTaxiData_whenCreateTaxiRequest_thenThrowTaxiCreationException()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.001"/>
+  <testcase name="givenAvailableTaxiRecord_whenTaxiUpdateRequest_thenDoNothing()" classname="com.tms.validation.TaxiValidationServiceTest" time="0.001"/>
+  <system-out><![CDATA[02:16:35.033 [Test worker] ERROR com.tms.validation.impl.TaxiValidationServiceImpl -- Invalid booking status. (Only AVAILABLE and NOT_AVAILABLE allowed)
+02:16:35.044 [Test worker] ERROR com.tms.validation.impl.TaxiValidationServiceImpl -- Please provide taxi coordinates.
+02:16:35.046 [Test worker] ERROR com.tms.validation.impl.TaxiValidationServiceImpl -- Ride in progress. Please complete the ride to update the taxi status.
+02:16:35.048 [Test worker] ERROR com.tms.validation.impl.TaxiValidationServiceImpl -- Please provide taxi coordinates.
+02:16:35.055 [Test worker] ERROR com.tms.validation.impl.TaxiValidationServiceImpl -- Please provide taxi details.
+]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/mubin/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.16/4a451ee6484abac3a498df0f3b33ed00a6fced4d/byte-buddy-agent-1.14.16.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

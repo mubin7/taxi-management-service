@@ -2,210 +2,109 @@ package com.tms.service;
 
 import com.tms.constant.RideStatus;
 import com.tms.constant.TaxiStatus;
-import com.tms.dto.BookingDTO;
 import com.tms.exception.InvalidDateFormatException;
 import com.tms.exception.NoBookingRecordFoundException;
-import com.tms.payload.request.ride.CompleteRideRequest;
-import com.tms.payload.request.ride.CreateRideRequest;
+import com.tms.helper.BookingTestHelper;
+import com.tms.helper.TaxiTestHelper;
+import com.tms.mapper.BookingModelMapper;
 import com.tms.payload.response.booking.BookingListResponse;
-import com.tms.payload.response.ride.CreateRideResponse;
-import com.tms.persistence.BasePostgresIntegrationTest;
-import com.tms.persistence.TaxiRepositoryTestHelper;
+import com.tms.persistence.entity.Booking;
 import com.tms.persistence.entity.Taxi;
 import com.tms.persistence.repository.BookingRepository;
-import com.tms.persistence.repository.TaxiRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.tms.service.impl.BookingServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.mockito.BDDMockito;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
-@Testcontainers
-@SpringBootTest
-public class BookingServiceTest extends BasePostgresIntegrationTest {
+public class BookingServiceTest {
 
-    @Autowired
     private BookingService bookingService;
-
-    @Autowired
-    private RideService rideService;
-
-    @Autowired
     private BookingRepository bookingRepository;
+    private BookingModelMapper bookingModelMapper;
 
-    @Autowired
-    private TaxiRepository taxiRepository;
+    private Taxi taxi;
+    private Booking booking;
 
-    @AfterEach
-    public void cleanUp() {
-        bookingRepository.deleteAll();
-        taxiRepository.deleteAll();
+    @BeforeEach
+    public void setup() {
+        bookingRepository = Mockito.mock(BookingRepository.class);
+        bookingModelMapper = Mockito.mock(BookingModelMapper.class);
+        bookingService = new BookingServiceImpl(bookingRepository, bookingModelMapper);
+
+        double xPos = 0.0;
+        double yPos = 0.0;
+        taxi = TaxiTestHelper.getTaxiWithStatusAndPosition(TaxiStatus.AVAILABLE, xPos, yPos);
+        booking = BookingTestHelper.getBookingWithCoordinates(1.0, 1.0, 3.0, 3.0);
+        BookingTestHelper.setNewBookingDetails(booking, LocalDateTime.now(), taxi);
     }
 
     @Test
-    public void whenCreateBooking_thenReturnBooking() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        rideService.createRide(createRideRequest);
+    public void givenBookingRecord_whenGetBookings_thenReturnAllBookings() {
+        BDDMockito.given(bookingRepository.findAll()).willReturn(Collections.singletonList(booking));
+        BDDMockito.given(bookingModelMapper.getModelList(any())).willReturn(Collections.singletonList(BookingTestHelper.getBookingDTO(booking)));
 
         BookingListResponse bookingListResponse = bookingService.getBookings();
-        BookingDTO bookingDTO = bookingListResponse.bookingDTOList().getFirst();
+        assertThat(bookingListResponse).isNotNull();
         assertThat(bookingListResponse.bookingDTOList()).hasSize(1);
-        assertThat(bookingDTO.getBookingId()).isNotNull();
-        assertThat(bookingDTO.getRideStatus()).isEqualTo(RideStatus.IN_PROGRESS);
-        assertThat(bookingDTO.getRideStartTime()).isNotNull();
-        assertThat(bookingDTO.getTaxiDTO().getTaxiStatus()).isEqualTo(TaxiStatus.BOOKED);
     }
 
     @Test
-    public void whenNotCreatedBooking_thenThrowsNoBookingRecordFoundException() {
+    public void givenNoBookingRecord_whenGetBookings_thenThrowNoBookingRecordFoundException() {
+        BDDMockito.given(bookingRepository.findAll()).willReturn(Collections.emptyList());
+        BDDMockito.given(bookingModelMapper.getModelList(any())).willReturn(Collections.singletonList(BookingTestHelper.getBookingDTO(booking)));
+
         assertThrows(NoBookingRecordFoundException.class, () -> bookingService.getBookings());
     }
 
     @Test
-    public void whenCreateBookingAndSearchInProgressRide_thenReturnInProgressRide() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        rideService.createRide(createRideRequest);
-
-        BookingListResponse bookingListResponse = bookingService.getBookingsByRideStatus(RideStatus.IN_PROGRESS);
-        BookingDTO bookingDTO = bookingListResponse.bookingDTOList().getFirst();
+    public void givenInProgressBookingRecord_whenGetBookingsByRideStatus_thenReturnBookingsByRideStatus() {
+        BDDMockito.given(bookingRepository.findByRideStatus(any())).willReturn(Collections.singletonList(booking));
+        BDDMockito.given(bookingModelMapper.getModelList(any())).willReturn(Collections.singletonList(BookingTestHelper.getBookingDTO(booking)));
+        RideStatus rideStatus = RideStatus.IN_PROGRESS;
+        BookingListResponse bookingListResponse = bookingService.getBookingsByRideStatus(rideStatus);
+        assertThat(bookingListResponse).isNotNull();
         assertThat(bookingListResponse.bookingDTOList()).hasSize(1);
-        assertThat(bookingDTO.getBookingId()).isNotNull();
-        assertThat(bookingDTO.getRideStatus()).isEqualTo(RideStatus.IN_PROGRESS);
-        assertThat(bookingDTO.getRideStartTime()).isNotNull();
-        assertThat(bookingDTO.getTaxiDTO().getTaxiStatus()).isEqualTo(TaxiStatus.BOOKED);
+        assertThat(bookingListResponse.bookingDTOList().getFirst().getRideStatus()).isEqualTo(rideStatus);
     }
 
     @Test
-    public void whenCreateBookingAndCompleteRideAndSearchCompletedRide_thenReturnCompletedRide() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
+    public void givenNoBookingRecord_whenGetBookingsByRideStatus_thenThrowNoBookingRecordFoundException() {
+        BDDMockito.given(bookingRepository.findByRideStatus(any())).willReturn(Collections.emptyList());
+        BDDMockito.given(bookingModelMapper.getModelList(any())).willReturn(Collections.singletonList(BookingTestHelper.getBookingDTO(booking)));
 
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
-        rideService.completeRide(new CompleteRideRequest(createRideResponse.bookingDTO()));
-
-        BookingListResponse bookingListResponse = bookingService.getBookingsByRideStatus(RideStatus.COMPLETED);
-        BookingDTO bookingDTO = bookingListResponse.bookingDTOList().getFirst();
-        assertThat(bookingListResponse.bookingDTOList()).hasSize(1);
-        assertThat(bookingDTO.getBookingId()).isNotNull();
-        assertThat(bookingDTO.getRideStatus()).isEqualTo(RideStatus.COMPLETED);
-        assertThat(bookingDTO.getRideStartTime()).isNotNull();
-        assertThat(bookingDTO.getTaxiDTO().getTaxiStatus()).isEqualTo(TaxiStatus.AVAILABLE);
+        assertThrows(NoBookingRecordFoundException.class, () -> bookingService.getBookingsByRideStatus(RideStatus.IN_PROGRESS));
     }
 
     @Test
-    public void whenCreateBookingAndSearchCompletedRides_thenThrowsNoBookingRecordFoundException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        rideService.createRide(createRideRequest);
-
-        assertThrows(NoBookingRecordFoundException.class, () -> bookingService.getBookingsByRideStatus(RideStatus.COMPLETED));
-    }
-
-    @Test
-    public void whenCreateBookingAndSearchByDate_thenReturnBookingsByDate() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        rideService.createRide(createRideRequest);
-
+    public void givenInProgressBookingRecord_whenGetBookingsByDate_thenReturnBookingsByDate() {
+        BDDMockito.given(bookingRepository.findByRideStartTimeBetween(any(), any())).willReturn(Collections.singletonList(booking));
+        BDDMockito.given(bookingModelMapper.getModelList(any())).willReturn(Collections.singletonList(BookingTestHelper.getBookingDTO(booking)));
         String date = LocalDate.now().toString();
         BookingListResponse bookingListResponse = bookingService.getBookingsByDate(date);
-        BookingDTO bookingDTO = bookingListResponse.bookingDTOList().getFirst();
+        assertThat(bookingListResponse).isNotNull();
         assertThat(bookingListResponse.bookingDTOList()).hasSize(1);
-        assertThat(bookingDTO.getBookingId()).isNotNull();
-        assertThat(bookingDTO.getRideStatus()).isEqualTo(RideStatus.IN_PROGRESS);
-        assertThat(bookingDTO.getRideStartTime()).isNotNull();
-        assertThat(bookingDTO.getTaxiDTO().getTaxiStatus()).isEqualTo(TaxiStatus.BOOKED);
-        assertThat(bookingDTO.getRideStartTime().toLocalDate().toString()).isEqualTo(date);
+        assertThat(bookingListResponse.bookingDTOList().getFirst().getRideStartTime().toLocalDate()).isEqualTo(LocalDate.now());
     }
 
     @Test
-    public void whenCreateBookingAndSearchByDateWithNoBookings_thenThrowsNoBookingRecordFoundException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        rideService.createRide(createRideRequest);
-
-        String date = LocalDate.now().plusDays(1).toString();
-        assertThrows(NoBookingRecordFoundException.class, () -> bookingService.getBookingsByDate(date));
-    }
-
-    @Test
-    public void whenCreateBookingAndSearchByInvalidDate_thenThrowsInvalidDateFormatException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
-        rideService.createRide(createRideRequest);
-
-        String date = LocalDateTime.now().toString();
+    public void givenInProgressBookingRecord_whenGetBookingsByInvalidDate_thenThrowInvalidDateFormatException() {
+        String date = LocalDate.now() + "-";
         assertThrows(InvalidDateFormatException.class, () -> bookingService.getBookingsByDate(date));
+    }
+
+    @Test
+    public void givenNoBookingRecord_whenGetBookingsByDate_thenThrowNoBookingRecordFoundException() {
+        BDDMockito.given(bookingRepository.findByRideStartTimeBetween(any(), any())).willReturn(Collections.emptyList());
+        String date = LocalDate.now().toString();
+        assertThrows(NoBookingRecordFoundException.class, () -> bookingService.getBookingsByDate(date));
     }
 }

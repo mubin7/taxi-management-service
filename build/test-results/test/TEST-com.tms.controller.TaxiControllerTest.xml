@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tms.controller.TaxiControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-06-27T22:16:37" hostname="Mubins-MacBook-Air.local" time="0.034">
+  <properties/>
+  <testcase name="givenTaxiObject_whenUpdateTaxi_thenReturnUpdatedTaxi()" classname="com.tms.controller.TaxiControllerTest" time="0.011"/>
+  <testcase name="givenTaxiObject_whenCreateTaxi_thenReturnNewTaxi()" classname="com.tms.controller.TaxiControllerTest" time="0.006"/>
+  <testcase name="givenTaxiObject_whenGetTaxis_thenReturnTaxiList()" classname="com.tms.controller.TaxiControllerTest" time="0.005"/>
+  <testcase name="givenTaxiObject_whenGetTaxiById_thenReturnTaxi()" classname="com.tms.controller.TaxiControllerTest" time="0.008"/>
+  <system-out><![CDATA[2024-06-28T02:16:37.642+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tms.controller.TaxiControllerTest]: TaxiControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-06-28T02:16:37.647+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.tms.TaxiManagementServiceApplication for test class com.tms.controller.TaxiControllerTest
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2024-06-28T02:16:37.663+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.controller.TaxiControllerTest    : Starting TaxiControllerTest using Java 21.0.3 with PID 19813 (started by mubin in /Users/mubin/Documents/Projects/Github/Beamtrail/taxi-management-service)
+2024-06-28T02:16:37.663+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.controller.TaxiControllerTest    : The following 1 profile is active: "test"
+2024-06-28T02:16:37.782+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-06-28T02:16:37.782+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-06-28T02:16:37.783+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-06-28T02:16:37.788+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] com.tms.controller.TaxiControllerTest    : Started TaxiControllerTest in 0.139 seconds (process running for 4.876)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

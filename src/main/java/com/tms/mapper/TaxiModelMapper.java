@@ -19,11 +19,11 @@ public class TaxiModelMapper {
         return modelMapper.map(taxiDTO, Taxi.class);
     }
 
-    public TaxiDTO getModel(Taxi taxi) {
+    public TaxiDTO getDTO(Taxi taxi) {
         return modelMapper.map(taxi, TaxiDTO.class);
     }
 
-    public List<TaxiDTO> getModelList(List<Taxi> taxiList) {
+    public List<TaxiDTO> getDTOList(List<Taxi> taxiList) {
         return modelMapper.map(taxiList, new TypeToken<List<TaxiDTO>>() {
         }.getType());
     }

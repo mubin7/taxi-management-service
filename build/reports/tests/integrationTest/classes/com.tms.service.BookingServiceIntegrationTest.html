@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - BookingServiceIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>BookingServiceIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.tms.service.html">com.tms.service</a> &gt; BookingServiceIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">8</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.327s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">givenAvailableTaxiWithValidBookingRequest_whenCreateBooking_thenReturnBooking()</td>
+<td class="success">0.036s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenCompleteRide_whenSearchCompletedRide_thenReturnCompletedRide()</td>
+<td class="success">0.042s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenInProgressRide_whenSearchBookingsByDate_thenReturnBookingsByDate()</td>
+<td class="success">0.045s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenInProgressRide_whenSearchCompletedRides_thenThrowsNoBookingRecordFoundException()</td>
+<td class="success">0.031s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenInProgressRide_whenSearchInProgressRide_thenReturnInProgressRide()</td>
+<td class="success">0.060s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenNoBookings_whenGetBookings_thenThrowNoBookingRecordFoundException()</td>
+<td class="success">0.034s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">whenCreateBookingAndSearchByDateWithNoBookings_thenThrowsNoBookingRecordFoundException()</td>
+<td class="success">0.040s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">whenCreateBookingAndSearchByInvalidDate_thenThrowsInvalidDateFormatException()</td>
+<td class="success">0.039s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2024-06-28T02:16:53.312+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] tc.postgres:14.1-alpine                  : Creating container for image: postgres:14.1-alpine
+2024-06-28T02:16:53.336+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] tc.postgres:14.1-alpine                  : Container postgres:14.1-alpine is starting: 30025fda54795cb4d4d90dd0cce6961d837ad45a81bb8efed6a8cb8b1f7f2c6e
+2024-06-28T02:16:54.225+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] tc.postgres:14.1-alpine                  : Container postgres:14.1-alpine started in PT0.913475S
+2024-06-28T02:16:54.226+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] tc.postgres:14.1-alpine                  : Container is started (JDBC URL: jdbc:postgresql://localhost:58379/test?loggerLevel=OFF)
+2024-06-28T02:16:54.228+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tms.service.BookingServiceIntegrationTest]: BookingServiceIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-06-28T02:16:54.238+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.tms.TaxiManagementServiceApplication for test class com.tms.service.BookingServiceIntegrationTest
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2024-06-28T02:16:54.266+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.t.s.BookingServiceIntegrationTest      : Starting BookingServiceIntegrationTest using Java 21.0.3 with PID 19819 (started by mubin in /Users/mubin/Documents/Projects/Github/Beamtrail/taxi-management-service)
+2024-06-28T02:16:54.266+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.t.s.BookingServiceIntegrationTest      : The following 1 profile is active: &quot;integration&quot;
+2024-06-28T02:16:54.339+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-28T02:16:54.345+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 2 JPA repository interfaces.
+2024-06-28T02:16:54.377+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-28T02:16:54.378+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-28T02:16:54.381+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-28T02:16:54.382+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2024-06-28T02:16:54.410+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@4c6554a7
+2024-06-28T02:16:54.410+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2024-06-28T02:16:54.453+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: alter table if exists booking drop constraint if exists FKb9pxgdcu5is3umpn5m4uyq0ls
+2024-06-28T02:16:54.455+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2024-06-28T02:16:54.455+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation &quot;booking&quot; does not exist, skipping
+Hibernate: drop table if exists booking cascade
+2024-06-28T02:16:54.456+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2024-06-28T02:16:54.456+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : table &quot;booking&quot; does not exist, skipping
+Hibernate: drop table if exists taxi cascade
+2024-06-28T02:16:54.457+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2024-06-28T02:16:54.457+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : table &quot;taxi&quot; does not exist, skipping
+Hibernate: create table booking (destxpos float(53), destypos float(53), srcxpos float(53), srcypos float(53), ride_end_time timestamp(6), ride_start_time timestamp(6), booking_id varchar(255) not null, ride_status varchar(255) check (ride_status in ('IN_PROGRESS','COMPLETED')), taxi_id varchar(255), primary key (booking_id))
+Hibernate: create table taxi (currxpos float(53), currypos float(53), taxi_id varchar(255) not null, taxi_status varchar(255) check (taxi_status in ('AVAILABLE','NOT_AVAILABLE','BOOKED')), primary key (taxi_id))
+Hibernate: alter table if exists booking add constraint FKb9pxgdcu5is3umpn5m4uyq0ls foreign key (taxi_id) references taxi
+2024-06-28T02:16:54.478+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-28T02:16:54.507+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-28T02:16:54.564+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.t.s.BookingServiceIntegrationTest      : Started BookingServiceIntegrationTest in 0.315 seconds (process running for 12.142)
+2024-06-28T02:16:54.586+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings.
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+2024-06-28T02:16:54.594+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : No booking record(s) found
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.612+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.612+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.615+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='e1e76346-4243-4165-926b-76b81b322234', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.616+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.616+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.623+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by journey status : IN_PROGRESS
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_status=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+2024-06-28T02:16:54.647+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list by journey status retrieved successfully.
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.671+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.671+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.674+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='b5029c29-04f1-482e-918d-ac218fd7d730', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.674+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.674+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.680+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating complete ride request
+2024-06-28T02:16:54.680+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting booking details by id 7f82c2ea-1e3b-4f07-b846-60993228bc8f
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from booking b1_0 left join taxi t1_0 on t1_0.taxi_id=b1_0.taxi_id where b1_0.booking_id=?
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+Hibernate: update booking set destxpos=?,destypos=?,ride_end_time=?,ride_start_time=?,ride_status=?,srcxpos=?,srcypos=?,taxi_id=? where booking_id=?
+2024-06-28T02:16:54.688+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by journey status : COMPLETED
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_status=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+2024-06-28T02:16:54.692+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list by journey status retrieved successfully.
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.712+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.713+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.715+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='f905368c-a7fd-4932-98f5-2319090da33d', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.715+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.716+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.721+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by date : 2024-06-29
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_start_time between ? and ?
+2024-06-28T02:16:54.725+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : No booking record(s) found for the date : 2024-06-29
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.757+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.757+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.763+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='49325962-4c03-4b7f-84cd-3c69bd636f67', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.763+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.763+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.771+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by date : 2024-06-28
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_start_time between ? and ?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+2024-06-28T02:16:54.776+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list by date retrieved successfully.
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.799+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.800+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.804+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='03c67d04-f675-41fe-bf93-f32f0f9752d2', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.804+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.805+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.810+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by journey status : COMPLETED
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_status=?
+2024-06-28T02:16:54.813+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : No booking record(s) found for the status : COMPLETED
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.830+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.830+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.833+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='2c177494-3426-4831-8ed1-cfa41b95d17f', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.833+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.833+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.840+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by date : 2024-06-28T02:16:54.839985
+2024-06-28T02:16:54.840+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : Please use yyyy-MM-dd format for searching bookings by date. eg 2000-01-01
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+2024-06-28T02:16:54.872+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : validating new taxi booking request
+2024-06-28T02:16:54.872+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : getting nearest taxi
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_status=?
+2024-06-28T02:16:54.875+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi : TaxiDTO{taxiId='baaf9f5e-c0ee-485c-8c77-1f6991cf734f', taxiStatus=AVAILABLE, xPosition=1.0, yPosition=1.0}
+2024-06-28T02:16:54.875+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : booking nearest taxi
+2024-06-28T02:16:54.876+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.tms.service.impl.RideServiceImpl     : nearest taxi successfully booked with booking details : RideDTO[srcXPos=0.0, srcYPos=0.0, destXPos=3.0, destYPos=3.0]
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update taxi set currxpos=?,currypos=?,taxi_status=? where taxi_id=?
+2024-06-28T02:16:54.884+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings.
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+2024-06-28T02:16:54.889+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list retrieved successfully.
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0 where t1_0.taxi_id=?
+Hibernate: delete from booking where booking_id=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.taxi_id,b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos from booking b1_0 where b1_0.taxi_id=?
+Hibernate: delete from taxi where taxi_id=?
+2024-06-28T02:16:55.037+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+Hibernate: alter table if exists booking drop constraint if exists FKb9pxgdcu5is3umpn5m4uyq0ls
+2024-06-28T02:16:55.038+04:00  WARN 19819 --- [taxi-management-service] [    Test worker] com.zaxxer.hikari.pool.ProxyConnection   : HikariPool-4 - Connection org.postgresql.jdbc.PgConnection@4c6554a7 marked as broken because of SQLSTATE(08006), ErrorCode(0)
+
+org.postgresql.util.PSQLException: An I/O error occurred while sending to the backend.
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:398) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:341) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:326) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:302) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:297) ~[postgresql-42.7.3.jar:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.5.2.Final.jar:6.5.2.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl$DelayedDropActionImpl.perform(SchemaDropperImpl.java:625) ~[hibernate-core-6.5.2.Final.jar:6.5.2.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryClosing(SessionFactoryObserverForSchemaExport.java:48) ~[hibernate-core-6.5.2.Final.jar:6.5.2.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryClosing(SessionFactoryObserverChain.java:48) ~[hibernate-core-6.5.2.Final.jar:6.5.2.Final]
+	at org.hibernate.internal.SessionFactoryImpl.close(SessionFactoryImpl.java:922) ~[hibernate-core-6.5.2.Final.jar:6.5.2.Final]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.invokeProxyMethod(AbstractEntityManagerFactoryBean.java:519) ~[spring-orm-6.1.8.jar:6.1.8]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean$ManagedEntityManagerFactoryInvocationHandler.invoke(AbstractEntityManagerFactoryBean.java:735) ~[spring-orm-6.1.8.jar:6.1.8]
+	at jdk.proxy3/jdk.proxy3.$Proxy167.close(Unknown Source) ~[na:na]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:652) ~[spring-orm-6.1.8.jar:6.1.8]
+	at org.springframework.beans.factory.support.DisposableBeanAdapter.destroy(DisposableBeanAdapter.java:211) ~[spring-beans-6.1.8.jar:6.1.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroyBean(DefaultSingletonBeanRegistry.java:587) ~[spring-beans-6.1.8.jar:6.1.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton(DefaultSingletonBeanRegistry.java:559) ~[spring-beans-6.1.8.jar:6.1.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingleton(DefaultListableBeanFactory.java:1202) ~[spring-beans-6.1.8.jar:6.1.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingletons(DefaultSingletonBeanRegistry.java:520) ~[spring-beans-6.1.8.jar:6.1.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingletons(DefaultListableBeanFactory.java:1195) ~[spring-beans-6.1.8.jar:6.1.8]
+	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1186) ~[spring-context-6.1.8.jar:6.1.8]
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1147) ~[spring-context-6.1.8.jar:6.1.8]
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1093) ~[spring-context-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.cache.DefaultContextCache.remove(DefaultContextCache.java:204) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.cache.DefaultContextCache.remove(DefaultContextCache.java:169) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.closeContext(DefaultCacheAwareContextLoaderDelegate.java:203) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.support.DefaultTestContext.markApplicationContextDirty(DefaultTestContext.java:154) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener.dirtyContext(AbstractDirtiesContextTestExecutionListener.java:70) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener.beforeOrAfterTestClass(AbstractDirtiesContextTestExecutionListener.java:159) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.support.DirtiesContextTestExecutionListener.afterTestClass(DirtiesContextTestExecutionListener.java:96) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.TestContextManager.afterTestClass(TestContextManager.java:538) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.springframework.test.context.junit.jupiter.SpringExtension.afterAll(SpringExtension.java:144) ~[spring-test-6.1.8.jar:6.1.8]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeAfterAllCallbacks$18(ClassBasedTestDescriptor.java:462) ~[junit-jupiter-engine-5.10.2.jar:5.10.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeAfterAllCallbacks$19(ClassBasedTestDescriptor.java:462) ~[junit-jupiter-engine-5.10.2.jar:5.10.2]
+	at org.junit.platform.commons.util.CollectionUtils.forEachInReverseOrder(CollectionUtils.java:221) ~[junit-platform-commons-1.10.2.jar:1.10.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeAfterAllCallbacks(ClassBasedTestDescriptor.java:461) ~[junit-jupiter-engine-5.10.2.jar:5.10.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.after(ClassBasedTestDescriptor.java:236) ~[junit-jupiter-engine-5.10.2.jar:5.10.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.after(ClassBasedTestDescriptor.java:85) ~[junit-jupiter-engine-5.10.2.jar:5.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:161) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:161) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.10.2.jar:1.10.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86) ~[junit-platform-launcher-1.8.2.jar:1.8.2]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:119) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:94) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:89) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24) ~[na:na]
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33) ~[na:na]
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94) ~[na:na]
+	at jdk.proxy2/jdk.proxy2.$Proxy5.stop(Unknown Source) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:193) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60) ~[na:na]
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:113) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:65) ~[na:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
+Caused by: java.io.EOFException: null
+	at org.postgresql.core.PGStream.receiveChar(PGStream.java:469) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2166) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar:42.7.3]
+	... 93 common frames omitted
+
+2024-06-28T02:16:55.042+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: alter table if exists booking drop constraint if exists FKb9pxgdcu5is3umpn5m4uyq0ls
+Hibernate: drop table if exists booking cascade
+2024-06-28T02:16:55.042+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table if exists booking cascade
+Hibernate: drop table if exists taxi cascade
+2024-06-28T02:16:55.042+04:00 ERROR 19819 --- [taxi-management-service] [    Test worker] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table if exists taxi cascade
+2024-06-28T02:16:55.043+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2024-06-28T02:16:55.054+04:00  INFO 19819 --- [taxi-management-service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at 28 Jun 2024, 2:16:59 AM</p>
+</div>
+</div>
+</body>
+</html>

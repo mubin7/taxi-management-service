@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RideServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">taxi-management-service</a> &gt; <a href="index.source.html" class="el_package">com.tms.service.impl</a> &gt; <span class="el_source">RideServiceImpl.java</span></div><h1>RideServiceImpl.java</h1><pre class="source lang-java linenums">package com.tms.service.impl;
+
+import com.tms.constant.RideStatus;
+import com.tms.constant.TaxiStatus;
+import com.tms.dto.BookingDTO;
+import com.tms.dto.RideDTO;
+import com.tms.dto.TaxiDTO;
+import com.tms.exception.CompleteRideException;
+import com.tms.exception.NewBookingException;
+import com.tms.exception.NoBookingRecordFoundException;
+import com.tms.mapper.BookingModelMapper;
+import com.tms.payload.request.ride.CompleteRideRequest;
+import com.tms.payload.request.ride.CreateRideRequest;
+import com.tms.payload.response.ride.CompleteRideResponse;
+import com.tms.payload.response.ride.CreateRideResponse;
+import com.tms.persistence.entity.Booking;
+import com.tms.persistence.entity.Taxi;
+import com.tms.persistence.repository.BookingRepository;
+import com.tms.persistence.repository.TaxiRepository;
+import com.tms.service.RideService;
+import com.tms.service.TaxiFinderService;
+import com.tms.validation.RideValidationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+public class RideServiceImpl implements RideService {
+
+<span class="fc" id="L34">    private static final Logger LOGGER = LoggerFactory.getLogger(RideServiceImpl.class);</span>
+
+    private final RideValidationService rideValidationService;
+    private final TaxiFinderService taxiFinderService;
+    private final BookingRepository bookingRepository;
+    private final BookingModelMapper bookingModelMapper;
+
+    private final TaxiRepository taxiRepository;
+
+    public RideServiceImpl(RideValidationService rideValidationService,
+                           TaxiFinderService taxiFinderService,
+                           BookingRepository bookingRepository,
+<span class="fc" id="L46">                           BookingModelMapper bookingModelMapper, TaxiRepository taxiRepository) {</span>
+<span class="fc" id="L47">        this.rideValidationService = rideValidationService;</span>
+<span class="fc" id="L48">        this.taxiFinderService = taxiFinderService;</span>
+<span class="fc" id="L49">        this.bookingRepository = bookingRepository;</span>
+<span class="fc" id="L50">        this.bookingModelMapper = bookingModelMapper;</span>
+<span class="fc" id="L51">        this.taxiRepository = taxiRepository;</span>
+<span class="fc" id="L52">    }</span>
+
+
+    @Override
+    @Transactional
+    public CreateRideResponse createRide(CreateRideRequest createRideRequest) {
+<span class="fc" id="L58">        LOGGER.info(&quot;validating new taxi booking request&quot;);</span>
+<span class="fc" id="L59">        rideValidationService.validateCreateRide(createRideRequest);</span>
+
+<span class="fc" id="L61">        LOGGER.info(&quot;getting nearest taxi&quot;);</span>
+<span class="fc" id="L62">        TaxiDTO nearestTaxiDTO = taxiFinderService.getNearestAvailableTaxi(createRideRequest);</span>
+<span class="fc" id="L63">        LOGGER.info(&quot;nearest taxi : {}&quot;, nearestTaxiDTO);</span>
+
+<span class="fc" id="L65">        Taxi nearestTaxi = taxiRepository.findById(nearestTaxiDTO.getTaxiId()).get();</span>
+<span class="fc" id="L66">        Booking booking = getBookingEntity(createRideRequest.rideDTO(), nearestTaxi);</span>
+
+        try {
+<span class="fc" id="L69">            LOGGER.info(&quot;booking nearest taxi&quot;);</span>
+<span class="fc" id="L70">            Booking persistedBooking = bookingRepository.save(booking);</span>
+<span class="fc" id="L71">            LOGGER.info(&quot;nearest taxi successfully booked with booking details : {}&quot;, createRideRequest.rideDTO());</span>
+<span class="fc" id="L72">            BookingDTO bookingDTO = bookingModelMapper.getDTO(persistedBooking);</span>
+<span class="fc" id="L73">            return new CreateRideResponse(bookingDTO);</span>
+<span class="fc" id="L74">        } catch (Exception e) {</span>
+<span class="fc" id="L75">            LOGGER.error(&quot;create ride request failed for request : {}&quot;, createRideRequest);</span>
+<span class="fc" id="L76">            throw new NewBookingException(&quot;create ride failed for request : &quot; + createRideRequest);</span>
+        }
+    }
+
+    private Booking getBookingEntity(RideDTO rideDTO, Taxi taxi) {
+<span class="fc" id="L81">        Booking booking = bookingModelMapper.getModel(rideDTO);</span>
+<span class="fc" id="L82">        taxi.setTaxiStatus(TaxiStatus.BOOKED);</span>
+<span class="fc" id="L83">        booking.setTaxi(taxi);</span>
+<span class="fc" id="L84">        booking.getTaxi().setTaxiStatus(TaxiStatus.BOOKED);</span>
+<span class="fc" id="L85">        booking.setRideStatus(RideStatus.IN_PROGRESS);</span>
+<span class="fc" id="L86">        booking.setRideStartTime(LocalDateTime.now());</span>
+<span class="fc" id="L87">        return booking;</span>
+    }
+
+    @Override
+    @Transactional
+    public CompleteRideResponse completeRide(CompleteRideRequest completeRideRequest) {
+<span class="fc" id="L93">        LOGGER.info(&quot;validating complete ride request&quot;);</span>
+<span class="fc" id="L94">        rideValidationService.validateCompleteRide(completeRideRequest);</span>
+
+<span class="fc" id="L96">        String bookingId = completeRideRequest.bookingDTO().getBookingId();</span>
+<span class="fc" id="L97">        LOGGER.info(&quot;getting booking details by id {}&quot;, bookingId);</span>
+<span class="fc" id="L98">        Optional&lt;Booking&gt; optionalBooking = bookingRepository.findById(bookingId);</span>
+<span class="fc" id="L99">        Booking bookingEntity = optionalBooking.orElseThrow(</span>
+<span class="fc" id="L100">                () -&gt; new NoBookingRecordFoundException(&quot;no booking record found for booking id : &quot; + bookingId));</span>
+<span class="fc" id="L101">        updateBookingDetails(bookingEntity);</span>
+
+        try {
+<span class="fc" id="L104">            Booking persistedBooking = bookingRepository.save(bookingEntity);</span>
+<span class="fc" id="L105">            BookingDTO bookingDTO = bookingModelMapper.getDTO(persistedBooking);</span>
+<span class="fc" id="L106">            return new CompleteRideResponse(bookingDTO);</span>
+<span class="nc" id="L107">        } catch (Exception e) {</span>
+<span class="nc" id="L108">            LOGGER.error(&quot;complete ride failed for request : {}&quot;, completeRideRequest);</span>
+<span class="nc" id="L109">            throw new CompleteRideException(&quot;complete ride failed for request : &quot; + completeRideRequest);</span>
+        }
+    }
+
+    private void updateBookingDetails(Booking bookingEntity) {
+<span class="fc" id="L114">        Taxi taxi = bookingEntity.getTaxi();</span>
+<span class="fc" id="L115">        taxi.setTaxiStatus(TaxiStatus.AVAILABLE);</span>
+<span class="fc" id="L116">        taxi.setCurrXPos(bookingEntity.getDestXPos());</span>
+<span class="fc" id="L117">        taxi.setCurrYPos(bookingEntity.getDestYPos());</span>
+<span class="fc" id="L118">        bookingEntity.setTaxi(taxi);</span>
+<span class="fc" id="L119">        bookingEntity.setRideStatus(RideStatus.COMPLETED);</span>
+<span class="fc" id="L120">        bookingEntity.setRideEndTime(LocalDateTime.now());</span>
+<span class="fc" id="L121">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

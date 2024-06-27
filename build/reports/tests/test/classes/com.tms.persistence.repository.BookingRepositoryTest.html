@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - BookingRepositoryTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>BookingRepositoryTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.tms.persistence.repository.html">com.tms.persistence.repository</a> &gt; BookingRepositoryTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.492s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">givenBookingWithRideStarDate_whenSearchBookingByDateRange_thenReturnBookingsWithRideStartDate()</td>
+<td class="success">0.018s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenBookingWithRideStatusCompleted_whenSearchByRideStatusCompleted_thenReturnBookingsWithRideStatusCompleted()</td>
+<td class="success">0.023s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">givenBookingWithRideStatusInProgress_whenSearchByRideStatusInProgress_thenReturnBookingsWithRideStatusInProgress()</td>
+<td class="success">0.451s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2024-06-28T02:16:37.828+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tms.persistence.repository.BookingRepositoryTest]: BookingRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-06-28T02:16:37.839+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.tms.TaxiManagementServiceApplication for test class com.tms.persistence.repository.BookingRepositoryTest
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2024-06-28T02:16:37.856+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.t.p.repository.BookingRepositoryTest   : Starting BookingRepositoryTest using Java 21.0.3 with PID 19813 (started by mubin in /Users/mubin/Documents/Projects/Github/Beamtrail/taxi-management-service)
+2024-06-28T02:16:37.857+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.t.p.repository.BookingRepositoryTest   : The following 1 profile is active: &quot;test&quot;
+2024-06-28T02:16:37.995+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-28T02:16:38.037+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 33 ms. Found 2 JPA repository interfaces.
+2024-06-28T02:16:38.079+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2024-06-28T02:16:38.158+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:de427c07-4975-4af3-ad6d-0e8d8837a603;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2024-06-28T02:16:38.726+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-28T02:16:38.823+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-06-28T02:16:38.873+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-28T02:16:39.060+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-28T02:16:39.133+04:00  WARN 19813 --- [taxi-management-service] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-06-28T02:16:40.306+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists booking cascade 
+Hibernate: drop table if exists taxi cascade 
+Hibernate: create table booking (destxpos float(53), destypos float(53), srcxpos float(53), srcypos float(53), ride_end_time timestamp(6), ride_start_time timestamp(6), booking_id varchar(255) not null, taxi_id varchar(255), ride_status enum ('COMPLETED','IN_PROGRESS'), primary key (booking_id))
+Hibernate: create table taxi (currxpos float(53), currypos float(53), taxi_id varchar(255) not null, taxi_status enum ('AVAILABLE','BOOKED','NOT_AVAILABLE'), primary key (taxi_id))
+Hibernate: alter table if exists booking add constraint FKb9pxgdcu5is3umpn5m4uyq0ls foreign key (taxi_id) references taxi
+2024-06-28T02:16:40.375+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-28T02:16:40.746+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.t.p.repository.BookingRepositoryTest   : Started BookingRepositoryTest in 2.905 seconds (process running for 7.835)
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_status=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: update booking set destxpos=?,destypos=?,ride_end_time=?,ride_start_time=?,ride_status=?,srcxpos=?,srcypos=?,taxi_id=? where booking_id=?
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_status=?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+Hibernate: insert into taxi (currxpos,currypos,taxi_status,taxi_id) values (?,?,?,?)
+Hibernate: insert into booking (destxpos,destypos,ride_end_time,ride_start_time,ride_status,srcxpos,srcypos,taxi_id,booking_id) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0 where b1_0.ride_start_time between ? and ?
+Hibernate: select t1_0.taxi_id,t1_0.currxpos,t1_0.currypos,t1_0.taxi_status from taxi t1_0
+Hibernate: select b1_0.booking_id,b1_0.destxpos,b1_0.destypos,b1_0.ride_end_time,b1_0.ride_start_time,b1_0.ride_status,b1_0.srcxpos,b1_0.srcypos,b1_0.taxi_id from booking b1_0
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at 28 Jun 2024, 2:16:42 AM</p>
+</div>
+</div>
+</body>
+</html>

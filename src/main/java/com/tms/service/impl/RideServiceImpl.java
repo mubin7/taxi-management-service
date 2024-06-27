@@ -78,7 +78,7 @@ public class RideServiceImpl implements RideService {
     }
 
     private Booking getBookingEntity(RideDTO rideDTO, Taxi taxi) {
-        Booking booking = bookingModelMapper.getEntity(rideDTO);
+        Booking booking = bookingModelMapper.getModel(rideDTO);
         taxi.setTaxiStatus(TaxiStatus.BOOKED);
         booking.setTaxi(taxi);
         booking.getTaxi().setTaxiStatus(TaxiStatus.BOOKED);

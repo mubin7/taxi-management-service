@@ -6,116 +6,89 @@ import com.tms.dto.BookingDTO;
 import com.tms.dto.TaxiDTO;
 import com.tms.exception.CompleteRideException;
 import com.tms.exception.NewBookingException;
+import com.tms.helper.BookingTestHelper;
+import com.tms.helper.TaxiTestHelper;
 import com.tms.payload.request.ride.CompleteRideRequest;
 import com.tms.payload.request.ride.CreateRideRequest;
-import com.tms.payload.response.ride.CreateRideResponse;
-import com.tms.persistence.BasePostgresIntegrationTest;
-import com.tms.persistence.TaxiRepositoryTestHelper;
+import com.tms.persistence.entity.Booking;
 import com.tms.persistence.entity.Taxi;
 import com.tms.persistence.repository.BookingRepository;
-import com.tms.persistence.repository.TaxiRepository;
-import com.tms.service.RideService;
-import com.tms.service.RideServiceTestHelper;
-import org.junit.jupiter.api.AfterEach;
+import com.tms.validation.impl.RideValidationServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.mockito.Mockito;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Testcontainers
-@SpringBootTest
-public class RideValidationServiceTest extends BasePostgresIntegrationTest {
+public class RideValidationServiceTest {
 
-    @Autowired
     private RideValidationService rideValidationService;
 
-    @Autowired
-    private RideService rideService;
-
-    @Autowired
-    private TaxiRepository taxiRepository;
-
-    @Autowired
     private BookingRepository bookingRepository;
 
-    @AfterEach
-    public void cleanUp() {
-        taxiRepository.deleteAll();
-        bookingRepository.deleteAll();
+    private Booking booking;
 
+    @BeforeEach
+    public void setup() {
+        bookingRepository = Mockito.mock(BookingRepository.class);
+        rideValidationService = new RideValidationServiceImpl(bookingRepository);
+
+        booking = BookingTestHelper.getBookingWithCoordinates(1.0, 1.0, 3.0, 3.0);
+        Taxi taxi = TaxiTestHelper.getTaxiWithStatusAndPosition(TaxiStatus.BOOKED, 2.0, 2.0);
+        BookingTestHelper.setNewBookingDetails(booking, LocalDateTime.now(), taxi);
     }
 
     @Test
-    public void whenCreateRideWithMissingSource_thenThrowsNewBookingException() {
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(null, null, destXPos, destYPos, maxDistance);
+    public void givenValidCreateRideData_whenCreateRideRequest_thenDoNothing() {
+        CreateRideRequest createRideRequest = BookingTestHelper.getRideRequest(1.0, 1.0, 3.0, 3.0, 3.0);
+        assertDoesNotThrow(() -> rideValidationService.validateCreateRide(createRideRequest));
+    }
 
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
+    @Test
+    public void givenMissingSourceCoordinatesInCreateRide_whenCreateRideRequest_thenThrowNewBookingException() {
+        CreateRideRequest createRideRequest = BookingTestHelper.getRideRequest(null, null, 3.0, 3.0, 3.0);
         assertThrows(NewBookingException.class, () -> rideValidationService.validateCreateRide(createRideRequest));
     }
 
     @Test
-    public void whenCreateRideWithMissingDestination_thenThrowsNewBookingException() {
-        double srcXPos = 3.0;
-        double srcYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, null, null, maxDistance);
-
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-
+    public void givenMissingDestinationCoordinatesInCreateRide_whenCreateRideRequest_thenThrowNewBookingException() {
+        CreateRideRequest createRideRequest = BookingTestHelper.getRideRequest(1.0, 1.0, null, null, 3.0);
         assertThrows(NewBookingException.class, () -> rideValidationService.validateCreateRide(createRideRequest));
     }
 
     @Test
-    public void whenCompleteRideWithInvalidTaxiStatus_thenThrowsCompleteRideException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
+    public void givenValidCompleteRideData_whenCompleteRideRequest_thenDoNothing() {
+        BookingDTO bookingDTO = BookingTestHelper.getBookingDTO(booking);
+        CompleteRideRequest completeRideRequest = BookingTestHelper.getCompleteRideRequest(bookingDTO);
+        assertDoesNotThrow(() -> rideValidationService.validateCompleteRide(completeRideRequest));
+    }
 
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-        CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
-        BookingDTO bookingDTO = createRideResponse.bookingDTO();
-        TaxiDTO taxiDTO = bookingDTO.getTaxiDTO();
-        taxiDTO.setTaxiStatus(TaxiStatus.AVAILABLE);
-        bookingDTO.setTaxiDTO(taxiDTO);
-
-        CompleteRideRequest completeRideRequest = new CompleteRideRequest(bookingDTO);
+    @Test
+    public void givenCompleteRideDataWithoutBookingId_whenCompleteRideRequest_thenThrowCompleteRideException() {
+        BookingDTO bookingDTO = BookingTestHelper.getBookingDTO(booking);
+        bookingDTO.setBookingId(null);
+        CompleteRideRequest completeRideRequest = BookingTestHelper.getCompleteRideRequest(bookingDTO);
         assertThrows(CompleteRideException.class, () -> rideValidationService.validateCompleteRide(completeRideRequest));
     }
 
     @Test
-    public void whenCompleteRideWithInvalidRideStatus_thenThrowsCompleteRideException() {
-        double srcXPos = 0.0;
-        double srcYPos = 0.0;
-        double destXPos = 3.0;
-        double destYPos = 3.0;
-        double maxDistance = 5.0;
-        CreateRideRequest createRideRequest = RideServiceTestHelper
-                .createRideRequest(srcXPos, srcYPos, destXPos, destYPos, maxDistance);
+    public void givenInvalidTaxiStatus_whenCompleteRideRequest_thenThrowCompleteRideException() {
+        BookingDTO bookingDTO = BookingTestHelper.getBookingDTO(booking);
+        TaxiDTO taxiDTO = bookingDTO.getTaxiDTO();
+        taxiDTO.setTaxiStatus(TaxiStatus.AVAILABLE);
+        bookingDTO.setTaxiDTO(taxiDTO);
+        CompleteRideRequest completeRideRequest = BookingTestHelper.getCompleteRideRequest(bookingDTO);
+        assertThrows(CompleteRideException.class, () -> rideValidationService.validateCompleteRide(completeRideRequest));
+    }
 
-        List<Taxi> taxiList = TaxiRepositoryTestHelper.createTaxis(2, TaxiStatus.AVAILABLE);
-        taxiRepository.saveAll(taxiList);
-        CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
-        BookingDTO bookingDTO = createRideResponse.bookingDTO();
+    @Test
+    public void givenInvalidRideStatus_whenCompleteRideRequest_thenThrowCompleteRideException() {
+        BookingDTO bookingDTO = BookingTestHelper.getBookingDTO(booking);
         bookingDTO.setRideStatus(RideStatus.COMPLETED);
-
-        CompleteRideRequest completeRideRequest = new CompleteRideRequest(bookingDTO);
+        CompleteRideRequest completeRideRequest = BookingTestHelper.getCompleteRideRequest(bookingDTO);
         assertThrows(CompleteRideException.class, () -> rideValidationService.validateCompleteRide(completeRideRequest));
     }
 }

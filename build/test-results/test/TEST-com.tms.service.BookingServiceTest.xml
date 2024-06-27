@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tms.service.BookingServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-06-27T22:16:41" hostname="Mubins-MacBook-Air.local" time="0.131">
+  <properties/>
+  <testcase name="givenInProgressBookingRecord_whenGetBookingsByRideStatus_thenReturnBookingsByRideStatus()" classname="com.tms.service.BookingServiceTest" time="0.109"/>
+  <testcase name="givenBookingRecord_whenGetBookings_thenReturnAllBookings()" classname="com.tms.service.BookingServiceTest" time="0.003"/>
+  <testcase name="givenNoBookingRecord_whenGetBookings_thenThrowNoBookingRecordFoundException()" classname="com.tms.service.BookingServiceTest" time="0.002"/>
+  <testcase name="givenInProgressBookingRecord_whenGetBookingsByInvalidDate_thenThrowInvalidDateFormatException()" classname="com.tms.service.BookingServiceTest" time="0.003"/>
+  <testcase name="givenNoBookingRecord_whenGetBookingsByRideStatus_thenThrowNoBookingRecordFoundException()" classname="com.tms.service.BookingServiceTest" time="0.003"/>
+  <testcase name="givenNoBookingRecord_whenGetBookingsByDate_thenThrowNoBookingRecordFoundException()" classname="com.tms.service.BookingServiceTest" time="0.002"/>
+  <testcase name="givenInProgressBookingRecord_whenGetBookingsByDate_thenReturnBookingsByDate()" classname="com.tms.service.BookingServiceTest" time="0.002"/>
+  <system-out><![CDATA[2024-06-28T02:16:41.374+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by journey status : IN_PROGRESS
+2024-06-28T02:16:41.374+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list by journey status retrieved successfully.
+2024-06-28T02:16:41.380+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings.
+2024-06-28T02:16:41.380+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list retrieved successfully.
+2024-06-28T02:16:41.383+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings.
+2024-06-28T02:16:41.383+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : No booking record(s) found
+2024-06-28T02:16:41.386+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by date : 2024-06-28-
+2024-06-28T02:16:41.387+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : Please use yyyy-MM-dd format for searching bookings by date. eg 2000-01-01
+2024-06-28T02:16:41.391+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by journey status : IN_PROGRESS
+2024-06-28T02:16:41.391+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : No booking record(s) found for the status : IN_PROGRESS
+2024-06-28T02:16:41.394+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by date : 2024-06-28
+2024-06-28T02:16:41.394+04:00 ERROR 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : No booking record(s) found for the date : 2024-06-28
+2024-06-28T02:16:41.397+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : getting the list of all bookings by date : 2024-06-28
+2024-06-28T02:16:41.397+04:00  INFO 19813 --- [taxi-management-service] [    Test worker] c.tms.service.impl.BookingServiceImpl    : booking list by date retrieved successfully.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

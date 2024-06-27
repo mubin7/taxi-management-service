@@ -9,8 +9,8 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=tms
 
-# While running the application locally change the server.port in application.yml from 8081 to any other available port to avoid port conflict
-# and comment the below service config
+  # While running the application locally change the server.port in application.yml from 8081 to any other available port to avoid port conflict
+  # and comment the below service config
 
   taxi-management-service:
     image: taxi-management-service

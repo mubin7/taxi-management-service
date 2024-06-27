@@ -20,14 +20,14 @@ public class RideController {
         this.rideService = rideService;
     }
 
-    @PostMapping("/rides")
+    @PostMapping
     @Operation(summary = "Creates a request for new ride using the source and destination x & y coordinates.")
     public ResponseEntity<CreateRideResponse> createRide(@RequestBody CreateRideRequest createRideRequest) {
         CreateRideResponse createRideResponse = rideService.createRide(createRideRequest);
         return new ResponseEntity<>(createRideResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping("/rides")
+    @PutMapping
     @Operation(summary = "Completes an existing ride.")
     public ResponseEntity<CompleteRideResponse> completeRide(@RequestBody CompleteRideRequest completeRideRequest) {
         CompleteRideResponse completeRideResponse = rideService.completeRide(completeRideRequest);
